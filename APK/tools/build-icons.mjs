@@ -102,28 +102,52 @@ async function main() {
     .toFile(path.join(LOJA, 'icon-512.png'));
   console.log('\nPlay Store:\n  DEPLOY/store-assets/icon-512.png  512x512 (sem alpha)');
 
-  // Splash screen do Capacitor: logo centralizado sobre o amarelo da marca.
-  const dirSplash = path.join(RES, 'drawable');
-  await mkdir(dirSplash, { recursive: true });
-  for (const [nome, w, h] of [
-    ['splash.png', 1080, 1920],
-    ['splash_land.png', 1920, 1080],
-  ]) {
-    const lado = Math.round(Math.min(w, h) * 0.42);
-    await sharp({
-      create: { width: w, height: h, channels: 4, background: FUNDO },
-    })
-      .composite([
-        {
-          input: await sharp(LOGO).resize(lado, lado, { fit: 'contain' }).png().toBuffer(),
-          gravity: 'center',
-        },
-      ])
-      .png()
-      .toFile(path.join(dirSplash, nome));
-  }
-  console.log('\nSplash:\n  drawable/splash.png (1080x1920) + splash_land.png');
+  await splashScreens();
   console.log('');
+}
+
+/**
+ * Splash screens em TODAS as densidades.
+ *
+ * O Capacitor instala o splash padrão dele em `drawable-port-*` e
+ * `drawable-land-*`. O Android dá preferência a esses diretórios específicos
+ * sobre o `drawable/` genérico — então escrever só em `drawable/` deixa o
+ * ícone padrão aparecendo. Todas as variantes precisam ser sobrescritas.
+ */
+async function splashScreens() {
+  // Retrato e paisagem, por densidade (mesmas dimensões usadas pelo Capacitor).
+  const variantes = [
+    ['drawable-port-mdpi', 320, 480],
+    ['drawable-port-hdpi', 480, 800],
+    ['drawable-port-xhdpi', 720, 1280],
+    ['drawable-port-xxhdpi', 960, 1600],
+    ['drawable-port-xxxhdpi', 1280, 1920],
+    ['drawable-land-mdpi', 480, 320],
+    ['drawable-land-hdpi', 800, 480],
+    ['drawable-land-xhdpi', 1280, 720],
+    ['drawable-land-xxhdpi', 1600, 960],
+    ['drawable-land-xxxhdpi', 1920, 1280],
+    ['drawable', 1080, 1920],
+  ];
+
+  for (const [dir, w, h] of variantes) {
+    const destino = path.join(RES, dir);
+    await mkdir(destino, { recursive: true });
+
+    // Logo a 42% do menor lado: respira nas bordas em qualquer proporção.
+    const lado = Math.round(Math.min(w, h) * 0.42);
+    const logo = await sharp(LOGO).resize(lado, lado, { fit: 'contain' }).png().toBuffer();
+
+    await sharp({ create: { width: w, height: h, channels: 4, background: FUNDO } })
+      .composite([{ input: logo, gravity: 'center' }])
+      // Fundo sólido + logo comprime muito bem em paleta indexada:
+      // ~3,5 MB para ~500 KB no total, sem diferença perceptível.
+      .png({ palette: true, quality: 90, compressionLevel: 9 })
+      .toFile(path.join(destino, 'splash.png'));
+  }
+
+  console.log(`\nSplash (${variantes.length} variantes, todas as densidades):`);
+  console.log('  drawable-port-*, drawable-land-* e drawable/ — logo do Farm Book');
 }
 
 main().catch((e) => {
