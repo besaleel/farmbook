@@ -16,7 +16,8 @@
     "removerAnuncio": "Supprimer les pubs",
     "idioma": "Langue",
     "background": "Décor",
-    "som": "Son"
+    "som": "Son",
+    "editarNome": "Changer de prénom"
   },
   "backgrounds": {
     "standard": "Ferme",

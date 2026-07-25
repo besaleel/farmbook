@@ -165,7 +165,31 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [x] **6.7** Remover banner e botão após a compra (estado persistido)
 - [x] **6.8** **Restaurar compra** (obrigatório para reinstalação)
 - [x] **6.9** Barreira parental antes da tela de pagamento
-- [ ] **6.10** Trocar para os IDs de **produção** — *somente no release final*
+- [ ] ⚠️ **6.10** **TROCAR PARA OS IDs DE PRODUÇÃO ANTES DA PUBLICAÇÃO ABERTA**
+
+      *Bloqueia a monetização: enquanto isso o app exibe "This is a test ad"
+      e **não gera nenhuma receita**.*
+
+      **Como fazer:** em `APK/src/app/core/services/ads.service.ts`, no método
+      `producao()`, trocar `return false;` por
+      `return Capacitor.isNativePlatform();`. É a única alteração necessária —
+      `adId`, `isTesting` e `initializeForTesting` derivam todos dessa flag.
+
+      | | Teste (atual) | Produção |
+      |---|---|---|
+      | Bloco de anúncios | `ca-app-pub-3940256099942544/6300978111` (público do Google) | `ca-app-pub-3480885465464323/5761468840` (FARMBOOK_NATIVE_RODAPE) |
+      | `isTesting` | `true` | `false` |
+
+      O **App ID** (`ca-app-pub-3480885465464323~8822746451`, no
+      AndroidManifest) é sempre o de produção — só o bloco alterna.
+
+      ⚠️ **Depois da troca, nunca toque nos próprios anúncios**: o Google
+      trata cliques do próprio desenvolvedor como fraude e suspende a conta
+      AdMob. Durante o teste interno, com os IDs de teste, clicar é seguro.
+
+      **Manter em teste enquanto:** teste interno e fechado. **Trocar quando:**
+      for publicar em produção aberta — e gerar um novo AAB com `versionCode`
+      incrementado.
 
 ## Fase 7 — Publicação
 

@@ -25,12 +25,19 @@
 
     <!-- Barra superior -->
     <header class="barra">
-      <div class="usuario">
+      <!-- Tocar no nome volta à tela inicial para editá-lo. -->
+      <button
+        class="usuario"
+        type="button"
+        [attr.aria-label]="'principal.editarNome' | translate"
+        (click)="editarNome()"
+      >
         <span class="avatar">{{ inicial() }}</span>
         <span class="nome fb-fonte">
           {{ settings.nome() || ('principal.amiguinho' | translate) }}
         </span>
-      </div>
+        <span class="lapis" aria-hidden="true">✏️</span>
+      </button>
 
       <div class="acoes">
         <button

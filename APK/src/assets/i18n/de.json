@@ -16,7 +16,8 @@
     "removerAnuncio": "Werbung entfernen",
     "idioma": "Sprache",
     "background": "Kulisse",
-    "som": "Ton"
+    "som": "Ton",
+    "editarNome": "Namen ändern"
   },
   "backgrounds": {
     "standard": "Bauernhof",

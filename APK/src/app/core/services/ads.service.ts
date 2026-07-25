@@ -78,8 +78,18 @@ export class AdsService {
     this.bannerVisivel.set(false);
   }
 
+  /**
+   * ⚠️ CHAVE ÚNICA que alterna entre anúncios de teste e de produção.
+   *
+   * Mantida em `false` durante o teste interno: com os IDs de teste é seguro
+   * tocar nos próprios anúncios, enquanto com os de produção o Google
+   * interpreta o clique como fraude e **suspende a conta AdMob**.
+   *
+   * Trocar para `Capacitor.isNativePlatform()` apenas no build que for para
+   * produção aberta — ver BACKLOG 6.10. Enquanto isso o app exibe
+   * "This is a test ad" e não gera receita, o que é o esperado.
+   */
   private producao(): boolean {
-    // Trocar para os IDs reais só no build de release (Backlog 6.10).
     return false;
   }
 }

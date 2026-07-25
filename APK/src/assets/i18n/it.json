@@ -16,7 +16,8 @@
     "removerAnuncio": "Rimuovi Pubblicità",
     "idioma": "Lingua",
     "background": "Scenario",
-    "som": "Suono"
+    "som": "Suono",
+    "editarNome": "Cambia nome"
   },
   "backgrounds": {
     "standard": "Fattoria",

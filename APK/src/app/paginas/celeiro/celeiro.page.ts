@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { IonContent } from '@ionic/angular/standalone';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -56,6 +57,7 @@ type PainelAberto = 'idioma' | 'background' | null;
 })
 export class CeleiroPage implements OnInit, OnDestroy {
   private readonly animalService = inject(AnimalService);
+  private readonly router = inject(Router);
   readonly settings = inject(SettingsService);
   readonly audio = inject(AudioService);
   readonly i18n = inject(I18nService);
@@ -113,6 +115,15 @@ export class CeleiroPage implements OnInit, OnDestroy {
       () => this.faixaVisivel.set(false),
       DURACAO_FAIXA_MS
     );
+  }
+
+  /**
+   * Volta à tela inicial para o usuário corrigir ou trocar o nome.
+   * Silencia o áudio antes de sair, para o som não continuar tocando.
+   */
+  async editarNome(): Promise<void> {
+    this.audio.pausarTudo();
+    await this.router.navigateByUrl('/inicial');
   }
 
   alternarPainel(qual: Exclude<PainelAberto, null>): void {

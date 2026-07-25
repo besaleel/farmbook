@@ -16,7 +16,8 @@
     "removerAnuncio": "Remove Ads",
     "idioma": "Language",
     "background": "Scene",
-    "som": "Sound"
+    "som": "Sound",
+    "editarNome": "Change name"
   },
   "backgrounds": {
     "standard": "Farm",

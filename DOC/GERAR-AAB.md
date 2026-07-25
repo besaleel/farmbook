@@ -96,8 +96,22 @@ npx cap sync android
 Isso gera `APK/www` (build otimizado) e copia para
 `APK/android/app/src/main/assets/public`.
 
-> Antes do build de release, confirme que os **IDs de produção do AdMob** estão
-> ativos no lugar dos IDs de teste (Backlog 6.10).
+> ### ⚠️ Antes de publicar em produção aberta: trocar os IDs do AdMob
+>
+> O app está com os **anúncios de teste** ativos ("This is a test ad") —
+> seguro para o teste interno, mas **não gera receita**.
+>
+> Em `APK/src/app/core/services/ads.service.ts`, método `producao()`:
+> trocar `return false;` por `return Capacitor.isNativePlatform();`
+>
+> Confira no APK gerado:
+> ```powershell
+> # deve encontrar o bloco de producao e NAO o de teste em uso
+> Select-String -Path "APK\www\main*.js" -Pattern "3480885465464323/5761468840"
+> ```
+>
+> Depois da troca, **nunca clique nos próprios anúncios** — o Google suspende
+> a conta AdMob. Ver Backlog 6.10.
 
 ## 5. Gerar o AAB assinado
 

@@ -46,6 +46,11 @@
       <label class="pergunta" for="campo-nome">
         {{ 'inicial.perguntaNome' | translate }}
       </label>
+      <!--
+        `select()` no foco: quem volta para corrigir o nome já encontra o
+        texto inteiro selecionado, e digitar substitui em vez de inserir no
+        meio da palavra.
+      -->
       <input
         id="campo-nome"
         class="campo-nome fb-fonte"
@@ -55,6 +60,7 @@
         [placeholder]="'inicial.placeholderNome' | translate"
         [ngModel]="nome()"
         (ngModelChange)="nome.set($event)"
+        (focus)="$any($event.target).select()"
       />
     </div>
 

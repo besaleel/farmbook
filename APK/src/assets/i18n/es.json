@@ -16,7 +16,8 @@
     "removerAnuncio": "Quitar Anuncios",
     "idioma": "Idioma",
     "background": "Escenario",
-    "som": "Sonido"
+    "som": "Sonido",
+    "editarNome": "Cambiar nombre"
   },
   "backgrounds": {
     "standard": "Granja",
