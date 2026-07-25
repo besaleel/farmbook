@@ -136,6 +136,28 @@ Seis animais, cada um com `.png` 1024×1536 RGBA (usado no jogo) e
 | Porco | porco.png | porco-besa.glb |
 | Vaca | vaca.png | vaca-base.glb |
 
+### 3.2.1 Origem única de logo e ícones
+
+**`PROJECT/assets/logo.png` (1254×1254 RGBA) é a fonte única** de todo logo e
+ícone do aplicativo. Nada é desenhado à parte: `npm run icons` deriva tudo
+dele, garantindo consistência visual.
+
+| Destino | Formato gerado | Observação |
+|---------|----------------|------------|
+| Ícone do app Android | PNG mipmap, 5 densidades (48→192) | Legado + foreground adaptativo |
+| Ícone adaptativo | `ic_launcher_foreground.png` | Safe zone de 66% |
+| Logo da tela inicial | `assets/logo.webp` (512) | |
+| Favicon do WebView | `assets/icon/favicon.png` (64) | |
+| Apple touch icon / PWA | `icon-180.png`, `icon-512.png` | |
+| Splash screen | `drawable/splash.png` + `splash_land.png` | Logo sobre o amarelo da marca |
+| Ícone da Play Store | `DEPLOY/store-assets/icon-512.png` | **Sem alpha** (exigência do Google) |
+
+> **Sobre `PROJECT/assets/farmbook.ico`** (256×256, PNG dentro do contêiner
+> ICO): o formato `.ico` **não é suportado pelo Android** e por isso não é
+> embarcado no app. Ele fica disponível para usos onde o formato é o correto —
+> build desktop ou favicon de site institucional. Para o WebView, o favicon
+> usado é PNG, gerado do `logo.png`.
+
 ### 3.3 Pipeline de otimização
 
 Antes de entrar em `APK/src/assets/`, todo asset passa por:
@@ -391,12 +413,34 @@ O jogo será usado em celulares e tablets dos pais, em tamanhos variados.
 - **Desempenho:** 60 fps em Android de entrada; animações apenas em
   `transform`/`opacity` (aceleradas por GPU).
 - **Tamanho:** app final abaixo de 30 MB.
-- **Público infantil:** o app se enquadra na política *Designed for Families*
-  do Google Play. Isso obriga: anúncios com classificação apropriada, sem
-  coleta de dados pessoais de crianças, e questionário de segurança de dados
-  preenchido corretamente. O campo "nome" fica **apenas no aparelho**.
 - **Barreira parental:** a compra é uma ação de adulto — avaliar proteção
   simples antes da tela de pagamento.
+
+### 6.1 Política para Famílias do Google Play (obrigatória)
+
+O público-alvo declarado inclui crianças, o que sujeita o Farm Book à
+**Política para Famílias** do Google Play. **Decisão do cliente:** exibir a
+mensagem *"Compromisso com a Política para Famílias do Google Play"* na seção
+**Segurança dos dados** da ficha da loja.
+
+Esse compromisso impõe requisitos que afetam código e documentos:
+
+| Requisito | Como o app atende |
+|-----------|-------------------|
+| Não coletar dados pessoais de crianças | O nome fica **só no aparelho** (Capacitor Preferences); nada é enviado a servidor |
+| Sem identificadores de publicidade para personalização | AdMob deve ser configurado com **anúncios não personalizados** e `tagForChildDirectedTreatment` |
+| Anúncios de classificação apropriada | Filtro de conteúdo no AdMob restrito a público infantil |
+| Sem links externos sem barreira parental | Compra protegida por barreira parental (§ 4.5) |
+| Política de privacidade acessível | URL pública, obrigatória na Play Console |
+| Questionário de Segurança dos Dados coerente | Declarar "nenhum dado coletado" — precisa ser verdade |
+
+> **Consequência técnica direta:** a integração do AdMob (Fase 6) **não pode**
+> usar a configuração padrão. É obrigatório marcar o app como dirigido a
+> crianças e desativar a personalização de anúncios — caso contrário o app é
+> reprovado na revisão, mesmo funcionando.
+
+A Política de Privacidade e o Termo de Uso (Fase 7) devem declarar
+explicitamente esse compromisso e a ausência de coleta de dados.
 
 ---
 

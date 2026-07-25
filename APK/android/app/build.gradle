@@ -1,5 +1,20 @@
 apply plugin: 'com.android.application'
 
+/*
+ * Credenciais de assinatura.
+ *
+ * Ficam em android/keystore.properties, que NAO e versionado (ver
+ * DOC/GERAR-AAB.md secao 3). Quando o arquivo nao existe, o Gradle assina o
+ * release com a chave de debug — util para testar o processo, mas esse
+ * artefato NAO pode ser enviado a Play Store.
+ */
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+def hasKeystore = keystorePropertiesFile.exists()
+if (hasKeystore) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.farmbook.app"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -7,8 +22,9 @@ android {
         applicationId "com.farmbook.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        // versionCode deve SEMPRE aumentar; o Google rejeita valor ja usado.
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -16,8 +32,29 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (hasKeystore) {
+                def caminho = keystoreProperties['storeFile']
+                storeFile file(caminho.startsWith('/') || caminho.contains(':')
+                        ? caminho
+                        : rootProject.file(caminho).absolutePath)
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (hasKeystore) {
+                signingConfig signingConfigs.release
+            } else {
+                logger.warn("AVISO: keystore.properties nao encontrado — o " +
+                        "release sera assinado com a chave de DEBUG e a Play " +
+                        "Store ira rejeita-lo. Ver DOC/GERAR-AAB.md.")
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -36,6 +73,13 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
+    /*
+     * SDK de anuncios declarado explicitamente: o plugin do AdMob o inclui
+     * como `implementation`, que nao e transitivo, entao a MainActivity nao
+     * enxergaria MobileAds/RequestConfiguration. Necessario para aplicar os
+     * sinais da Politica para Familias (ESPECIFICACAO secao 6.1).
+     */
+    implementation "com.google.android.gms:play-services-ads:$playServicesAdsVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"

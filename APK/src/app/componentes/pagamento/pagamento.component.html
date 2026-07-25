@@ -1,0 +1,51 @@
+<div class="fundo" (click)="fechar.emit()"></div>
+
+<div class="modal" role="dialog" aria-modal="true">
+  <button class="fechar" type="button" (click)="fechar.emit()" aria-label="X">
+    ✕
+  </button>
+
+  @if (!liberado()) {
+    <!-- Barreira parental: a compra é uma ação de adulto -->
+    <h2 class="titulo fb-fonte">{{ 'pagamento.barreiraTitulo' | translate }}</h2>
+    <p class="conta fb-fonte">
+      {{ 'pagamento.barreiraPergunta' | translate: { a: a(), b: b() } }}
+    </p>
+    <input
+      class="campo fb-fonte"
+      type="number"
+      inputmode="numeric"
+      [ngModel]="resposta()"
+      (ngModelChange)="resposta.set($event)"
+      (keyup.enter)="verificarBarreira()"
+    />
+    @if (erro()) {
+      <p class="erro">{{ 'pagamento.barreiraErro' | translate }}</p>
+    }
+    <button class="fb-botao" type="button" (click)="verificarBarreira()">
+      {{ 'comum.confirmar' | translate }}
+    </button>
+  } @else {
+    <h2 class="titulo fb-fonte">{{ 'pagamento.titulo' | translate }}</h2>
+    <p class="descricao">{{ 'pagamento.descricao' | translate }}</p>
+
+    <p class="preco fb-fonte">{{ precoExibido() }}</p>
+
+    @if (mensagem()) {
+      <p class="erro">{{ mensagem() | translate }}</p>
+    }
+
+    <button
+      class="fb-botao"
+      type="button"
+      [disabled]="compras.processando()"
+      (click)="comprar()"
+    >
+      {{ 'pagamento.comprar' | translate }}
+    </button>
+
+    <button class="link" type="button" (click)="restaurar()">
+      {{ 'pagamento.restaurar' | translate }}
+    </button>
+  }
+</div>

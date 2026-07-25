@@ -33,6 +33,13 @@ Lista de atividades derivada de [ESPECIFICACAO.md](ESPECIFICACAO.md).
       `DEPLOY/store-assets/icon-512.png` sem alpha
 - [x] **1.5** Peso conferido: **1,75 MB** de assets embarcados
       (meta era < 20 MB); APK debug completo com 7,16 MB
+- [x] **1.11** Origem única de logo/ícones: **tudo derivado de
+      `PROJECT/assets/logo.png`** via `npm run icons` — ícone Android (5
+      densidades), favicon do WebView, apple-touch-icon, splash e ícone 512
+      da loja. Substituído o favicon genérico do Ionic; `<title>` corrigido
+      de "Ionic App" para "Farm Book".
+      **`farmbook.ico` não é embarcado** — o formato `.ico` não é suportado
+      pelo Android (ver ESPECIFICACAO § 3.2.1)
 - [ ] **1.10** *(opcional, Fase 7)* Reduzir os ~398 KB de ícones SVG que o
       Ionic embarca por padrão, mantendo só os efetivamente usados
 - [x] **1.6** ~~Placeholders silenciosos~~ — desnecessário: os sons dos animais
@@ -65,27 +72,27 @@ Lista de atividades derivada de [ESPECIFICACAO.md](ESPECIFICACAO.md).
 
 ## Fase 3 — Tela inicial
 
-- [ ] **3.1** Layout: logo, boas-vindas, botão "Começar" grande
-- [ ] **3.2** Campo de nome da criança (persistido, opcional)
-- [ ] **3.3** Seletor de idioma com bandeiras, troca imediata
-- [ ] **3.4** Botão de música de fundo (liga/desliga, persistido)
-- [ ] **3.5** Navegação para a tela principal
+- [x] **3.1** Layout: logo, boas-vindas, botão "Começar" grande
+- [x] **3.2** Campo de nome da criança (persistido, opcional)
+- [x] **3.3** Seletor de idioma com bandeiras, troca imediata
+- [x] **3.4** Botão de música de fundo (liga/desliga, persistido)
+- [x] **3.5** Navegação para a tela principal
 
 ## Fase 4 — Tela principal (celeiro)
 
-- [ ] **4.1** Palco responsivo mantendo a proporção do background
-- [ ] **4.2** Posicionar os 6 animais em percentuais, sem sobreposição de
+- [x] **4.1** Palco responsivo mantendo a proporção do background
+- [x] **4.2** Posicionar os 6 animais em percentuais, sem sobreposição de
       áreas de toque
-- [ ] **4.3** Barra superior: avatar + nome (esquerda); idioma, background,
+- [x] **4.3** Barra superior: avatar + nome (esquerda); idioma, background,
       som (direita)
-- [ ] **4.4** Seletor de background (5 opções, 6 após 4B.10; sempre todas
+- [x] **4.4** Seletor de background (5 opções, 6 após 4B.10; sempre todas
       disponíveis em qualquer idioma e época,
       persistido; marca `backgroundEscolhidoManualmente = true`)
-- [ ] **4.5** Área reservada do banner no rodapé (recolhe se não houver anúncio)
-- [ ] **4.6** Botão "Remover Anúncio" acima do banner
-- [ ] **4.7** Animação **idle** por CSS (respiração/balanço, defasada por animal)
-- [ ] **4.8** Animação de **reação ao toque** (~600 ms, squash & stretch)
-- [ ] **4.9** Respeitar `prefers-reduced-motion`
+- [x] **4.5** Área reservada do banner no rodapé (recolhe se não houver anúncio)
+- [x] **4.6** Botão "Remover Anúncio" acima do banner
+- [x] **4.7** Animação **idle** por CSS (respiração/balanço, defasada por animal)
+- [x] **4.8** Animação de **reação ao toque** (~600 ms, squash & stretch)
+- [x] **4.9** Respeitar `prefers-reduced-motion`
 
 ## Fase 4B — Backgrounds sazonais automáticos
 
@@ -104,7 +111,7 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [x] **4B.5** Restringir por idioma os temas culturais: **Thanksgiving só em
       EN**, **Festa Junina só em PT**. Nos demais idiomas seguem disponíveis
       apenas na troca manual
-- [ ] **4B.6** Aplicar na abertura do app e ao retornar do segundo plano,
+- [x] **4B.6** Aplicar na abertura do app e ao retornar do segundo plano,
       **somente** se `backgroundEscolhidoManualmente == false`
 - [x] **4B.7** Testes unitários das datas: validar Páscoa 2024–2032
       (31/03, 20/04, 05/04, 28/03, 16/04, 01/04, 21/04, 13/04, 28/03) e
@@ -116,18 +123,18 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [x] **4B.10** ~~Criar o asset da Festa Junina~~ — **entregue** como
       `background-festejunina.png` (1024×1536 RGB). Sem `.svg`, o que é
       suficiente (ver ESPECIFICACAO § 3.1). A janela de junho está desbloqueada
-- [ ] **4B.11** Garantir o recuo seguro: tema cujo asset não exista é ignorado,
+- [x] **4B.11** Garantir o recuo seguro: tema cujo asset não exista é ignorado,
       caindo em `background-standard` sem erro (proteção para temas futuros)
-- [ ] **4B.12** Incluir o novo background no seletor manual (passa de 5 para 6
+- [x] **4B.12** Incluir o novo background no seletor manual (passa de 5 para 6
       opções), usando a chave exata **`festejunina`** (sem hífen)
 
 ## Fase 5 — Faixa do nome e áudio
 
-- [ ] **5.1** Componente da faixa: fundo branco sólido, círculo com o rosto do
+- [x] **5.1** Componente da faixa: fundo branco sólido, círculo com o rosto do
       animal à esquerda, nome silabado em caixa alta
-- [ ] **5.2** Posicionar imediatamente acima do banner, sem sobreposição
-- [ ] **5.3** Fade in / fade out
-- [ ] **5.4** Timer de 3 s, reiniciado ao tocar outro animal
+- [x] **5.2** Posicionar imediatamente acima do banner, sem sobreposição
+- [x] **5.3** Fade in / fade out
+- [x] **5.4** Timer de 3 s, reiniciado ao tocar outro animal
 - [x] **5.5** `AudioService`: pré-carregar sons, tocar um por vez
 - [x] **5.6** Música de fundo em loop, volume suave, com *ducking* durante o
       som do animal
@@ -142,29 +149,41 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 
 ## Fase 6 — Monetização
 
-- [ ] **6.1** Integrar plugin AdMob no Capacitor
-- [ ] **6.2** Banner **Nativo Avançado** no rodapé (IDs de **teste** no dev)
-- [ ] **6.3** Tratar ausência de rede: recolher o banner sem quebrar o layout
-- [ ] **6.4** Integrar Google Play Billing
-- [ ] **6.5** Fluxo de compra do produto `remove_ads`
-- [ ] **6.6** Exibir preço **vindo do Google Play** (nunca fixo no código)
-- [ ] **6.7** Remover banner e botão após a compra (estado persistido)
-- [ ] **6.8** **Restaurar compra** (obrigatório para reinstalação)
-- [ ] **6.9** Barreira parental antes da tela de pagamento
+- [x] **6.1** Integrar plugin AdMob no Capacitor
+- [x] **6.1a** ⚠️ **Configurar AdMob para público infantil** —
+      `tagForChildDirectedTreatment`, anúncios **não personalizados** e filtro
+      de conteúdo restrito. Exigido pela Política para Famílias
+      (ESPECIFICACAO § 6.1); sem isso o app é **reprovado na revisão**
+- [x] **6.2** Banner **Nativo Avançado** no rodapé (IDs de **teste** no dev)
+- [x] **6.3** Tratar ausência de rede: recolher o banner sem quebrar o layout
+- [x] **6.4** Integrar Google Play Billing
+- [x] **6.5** Fluxo de compra do produto `remove_ads`
+- [x] **6.6** Exibir preço **vindo do Google Play** (nunca fixo no código)
+- [x] **6.7** Remover banner e botão após a compra (estado persistido)
+- [x] **6.8** **Restaurar compra** (obrigatório para reinstalação)
+- [x] **6.9** Barreira parental antes da tela de pagamento
 - [ ] **6.10** Trocar para os IDs de **produção** — *somente no release final*
 
 ## Fase 7 — Publicação
 
-- [ ] **7.1** Termo de Uso em HTML → `DEPLOY/termos-de-uso.html`
-- [ ] **7.2** Política de Privacidade em HTML → `DEPLOY/politica-privacidade.html`
+- [x] **7.1** Termo de Uso em HTML → `DEPLOY/termos-de-uso.html`
+- [x] **7.2** Política de Privacidade em HTML → `DEPLOY/politica-privacidade.html`
       (deve declarar: nome fica só no aparelho; uso do AdMob)
+- [x] **7.2a** Nos dois documentos, declarar explicitamente o **Compromisso com
+      a Política para Famílias do Google Play** e a ausência de coleta de
+      dados de crianças (ESPECIFICACAO § 6.1)
 - [ ] **7.3** Hospedar ambos em URL pública (exigido pela Play Console)
-- [ ] **7.4** Criar o keystore de release e guardá-lo com segurança
-- [ ] **7.5** Definir `versionCode` / `versionName` iniciais
-- [ ] **7.6** Ícone 512×512 → `DEPLOY/store-assets/icon-512.png`
-- [ ] **7.7** Feature graphic 1024×500 + screenshots
-- [ ] **7.8** Descrições da loja nos 6 idiomas
-- [ ] **7.9** Questionário **Designed for Families** e Segurança de Dados
+- [x] **7.4** `build.gradle` preparado para ler `keystore.properties`, com
+      aviso explícito quando ausente. ⚠️ **Criar o keystore em si continua
+      sendo tarefa sua** — ver GERAR-AAB.md § 2
+- [x] **7.5** Definir `versionCode` / `versionName` iniciais
+- [x] **7.6** Ícone 512×512 → `DEPLOY/store-assets/icon-512.png`
+- [x] **7.7** Feature graphic 1024×500 + screenshots
+- [x] **7.8** Descrições da loja nos 6 idiomas
+- [ ] **7.9** Questionário **Segurança dos Dados** declarando "nenhum dado
+      coletado", e marcar na Play Console a exibição da mensagem
+      **"Compromisso com a Política para Famílias do Google Play"** na seção
+      Segurança dos dados — decisão confirmada pelo cliente
 - [ ] **7.10** Gerar o AAB seguindo [GERAR-AAB.md](GERAR-AAB.md)
 - [ ] **7.11** Publicar em teste interno e validar em aparelho real
 

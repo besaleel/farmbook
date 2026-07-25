@@ -34,6 +34,32 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
+
+        <!-- AdMob: ID do aplicativo (ESPECIFICACAO § 7) -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3480885465464323~8822746451" />
+
+        <!--
+            Politica para Familias do Google Play (ESPECIFICACAO § 6.1).
+            O app e dirigido a criancas: desativa a personalizacao de anuncios
+            e restringe a classificacao do conteudo servido. Sem estes sinais
+            o app e reprovado na revisao da loja.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.NPA"
+            android:value="true" />
+        <meta-data
+            android:name="android.max_ad_content_rating"
+            android:value="G" />
+
+        <!-- Otimiza a inicializacao do SDK, evitando travar o primeiro frame -->
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
+            android:value="true" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
+            android:value="true" />
     </application>
 
     <!-- Permissions -->

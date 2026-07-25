@@ -84,6 +84,15 @@ async function main() {
   );
   console.log(`  values/ic_launcher_background.xml  ${hex}`);
 
+  // Favicon do WebView / PWA — gerado do logo, nunca o padrão do Ionic.
+  const dirIcon = path.join(__dirname, '../src/assets/icon');
+  await mkdir(dirIcon, { recursive: true });
+  for (const tam of [64, 180, 512]) {
+    const nome = tam === 64 ? 'favicon.png' : `icon-${tam}.png`;
+    await sharp(LOGO).resize(tam, tam, { fit: 'contain' }).png().toFile(path.join(dirIcon, nome));
+  }
+  console.log('\nWebView / PWA:\n  assets/icon/favicon.png (64), icon-180.png, icon-512.png');
+
   // Ícone 512x512 da Play Store — sem transparência, exigência do Google.
   await mkdir(LOJA, { recursive: true });
   await sharp(LOGO)
@@ -92,6 +101,28 @@ async function main() {
     .png()
     .toFile(path.join(LOJA, 'icon-512.png'));
   console.log('\nPlay Store:\n  DEPLOY/store-assets/icon-512.png  512x512 (sem alpha)');
+
+  // Splash screen do Capacitor: logo centralizado sobre o amarelo da marca.
+  const dirSplash = path.join(RES, 'drawable');
+  await mkdir(dirSplash, { recursive: true });
+  for (const [nome, w, h] of [
+    ['splash.png', 1080, 1920],
+    ['splash_land.png', 1920, 1080],
+  ]) {
+    const lado = Math.round(Math.min(w, h) * 0.42);
+    await sharp({
+      create: { width: w, height: h, channels: 4, background: FUNDO },
+    })
+      .composite([
+        {
+          input: await sharp(LOGO).resize(lado, lado, { fit: 'contain' }).png().toBuffer(),
+          gravity: 'center',
+        },
+      ])
+      .png()
+      .toFile(path.join(dirSplash, nome));
+  }
+  console.log('\nSplash:\n  drawable/splash.png (1080x1920) + splash_land.png');
   console.log('');
 }
 

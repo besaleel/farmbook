@@ -77,8 +77,13 @@ repositório) ou relativo à pasta `APK/android`. Use barras `/`.
 
 > Sem esse arquivo, o Gradle assina o release com a chave de **debug** — útil
 > para testar o processo, mas esse AAB **não pode ser enviado à Play Store**.
-> É preciso que `APK/android/app/build.gradle` esteja preparado para ler
-> `keystore.properties` quando ele existir (ver Backlog 7.4).
+>
+> ✅ `APK/android/app/build.gradle` **já está configurado** para ler
+> `keystore.properties` quando ele existir. Se o arquivo estiver ausente, o
+> build imprime o aviso:
+> `AVISO: keystore.properties nao encontrado — o release sera assinado com a
+> chave de DEBUG...`
+> Procure por essa linha na saída do Gradle antes de subir qualquer artefato.
 
 ## 4. Build de produção do Angular + sync Android
 
@@ -110,13 +115,20 @@ APK\android\app\build\outputs\bundle\release\app-release.aab
 
 ### Conferir que não foi assinado com a chave de debug
 
+Diferente do APK, o `.aab` **não guarda os arquivos de assinatura dentro do
+zip** — por isso `keytool -printcert -jarfile` não retorna nada para bundles.
+A verificação correta é observar a saída do Gradle:
+
+- Se aparecer `AVISO: keystore.properties nao encontrado`, o bundle foi
+  assinado com a chave de **debug** e será **rejeitado** pela Play Store.
+- Sem esse aviso, o keystore de release foi usado.
+
+Para inspecionar um **APK** (aí sim é possível):
+
 ```powershell
 & "$Env:JAVA_HOME\bin\keytool.exe" -printcert -jarfile `
-  "C:\Sistemas\FARMBOOK\APK\android\app\build\outputs\bundle\release\app-release.aab"
+  "C:\Sistemas\FARMBOOK\APK\android\app\build\outputs\apk\release\app-release.apk"
 ```
-
-Se aparecer `CN=Android Debug`, o `keystore.properties` não foi lido — revise
-o passo 3 antes de subir para a loja.
 
 ## 6. Copiar para DEPLOY
 

@@ -20,6 +20,9 @@ import {
   SettingsService,
 } from '../../core/services/settings.service';
 import { FaixaAnimalComponent } from '../../componentes/faixa-animal/faixa-animal.component';
+import { PagamentoComponent } from '../../componentes/pagamento/pagamento.component';
+import { AdsService } from '../../core/services/ads.service';
+import { PurchaseService } from '../../core/services/purchase.service';
 
 const BACKGROUNDS: BackgroundId[] = [
   'standard',
@@ -41,7 +44,13 @@ type PainelAberto = 'idioma' | 'background' | null;
 @Component({
   selector: 'fb-celeiro',
   standalone: true,
-  imports: [CommonModule, IonContent, TranslatePipe, FaixaAnimalComponent],
+  imports: [
+    CommonModule,
+    IonContent,
+    TranslatePipe,
+    FaixaAnimalComponent,
+    PagamentoComponent,
+  ],
   templateUrl: './celeiro.page.html',
   styleUrls: ['./celeiro.page.scss'],
 })
@@ -50,6 +59,10 @@ export class CeleiroPage implements OnInit, OnDestroy {
   readonly settings = inject(SettingsService);
   readonly audio = inject(AudioService);
   readonly i18n = inject(I18nService);
+  readonly ads = inject(AdsService);
+  readonly compras = inject(PurchaseService);
+
+  readonly mostrarPagamento = signal(false);
 
   readonly animais = this.animalService.listar();
   readonly backgrounds = BACKGROUNDS;
@@ -69,6 +82,10 @@ export class CeleiroPage implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     await this.settings.carregar();
     this.audio.precarregar(this.animalService.caminhosDeSom());
+
+    // Anúncios e billing nunca bloqueiam o jogo: falham em silêncio.
+    void this.compras.iniciar();
+    if (!this.settings.removeAds()) void this.ads.mostrarBanner();
   }
 
   ngOnDestroy(): void {

@@ -100,13 +100,25 @@
       <fb-faixa-animal [animal]="animalNaFaixa()" [visivel]="faixaVisivel()" />
 
       @if (!settings.removeAds()) {
-        <button class="remover-anuncio" type="button">
+        <button
+          class="remover-anuncio"
+          type="button"
+          (click)="mostrarPagamento.set(true)"
+        >
           {{ 'principal.removerAnuncio' | translate }}
         </button>
-        <div class="banner" aria-hidden="true">
-          <!-- Espaço reservado ao banner nativo (Fase 6) -->
-        </div>
+        <!--
+          Espaço do banner nativo. Recolhe quando não há anúncio (sem rede ou
+          sem preenchimento), sem quebrar o layout — ESPECIFICACAO § 6.
+        -->
+        @if (ads.bannerVisivel()) {
+          <div class="banner" aria-hidden="true"></div>
+        }
       }
     </footer>
+
+    @if (mostrarPagamento()) {
+      <fb-pagamento (fechar)="mostrarPagamento.set(false)" />
+    }
   </div>
 </ion-content>
