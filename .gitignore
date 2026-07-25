@@ -1,0 +1,34 @@
+# Dependências
+node_modules/
+
+# Build do Angular / Capacitor
+APK/www/
+APK/dist/
+APK/.angular/
+
+# Android — local e sensível
+APK/android/local.properties
+APK/android/keystore.properties
+APK/android/.gradle/
+APK/android/build/
+APK/android/app/build/
+APK/android/app/src/main/assets/public/
+APK/android/app/src/main/res/xml/config.xml
+APK/android/capacitor-cordova-android-plugins/
+
+# Chaves de assinatura — NUNCA versionar
+*.jks
+*.keystore
+
+# Artefatos de release
+DEPLOY/*.aab
+DEPLOY/*.apk
+
+# Sistema / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+*.log
+npm-debug.log*
