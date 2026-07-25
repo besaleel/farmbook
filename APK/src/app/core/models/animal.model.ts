@@ -22,16 +22,26 @@ export interface Animal {
   largura: number;
 
   /**
-   * Recorte do rosto para o círculo da faixa, em porcentagem da imagem.
-   * Alimenta `object-position` no CSS, evitando gerar assets extras
-   * — ver ESPECIFICACAO § 4.2.
+   * Enquadramento do rosto no círculo da faixa, via `object-position`
+   * (ESPECIFICACAO § 4.2).
+   *
+   * Atenção: `object-position` usa porcentagem do **excedente** recortado
+   * pelo `object-fit: cover`, não da imagem. Como os PNGs são retrato
+   * (~474x768) dentro de um círculo quadrado, o excedente vertical é de
+   * poucas dezenas de pixels — por isso `rostoY` fica em 0% para quase
+   * todos: a cabeça já está no topo.
+   *
+   * Valores calibrados medindo a silhueta real de cada animal
+   * (`tools/` + análise do canal alfa), não estimados.
    */
   rostoX: number;
   rostoY: number;
 
   /**
-   * Escala do zoom aplicado no círculo do rosto. Valores maiores aproximam
-   * mais a cabeça; calibrado por animal, pois as proporções variam.
+   * Zoom sobre o rosto já enquadrado, para a cabeça ocupar ~78% do círculo.
+   * Fica entre 1,0 e ~1,4: animais de cabeça larga (vaca, porco, ovelha)
+   * não precisam de zoom; os de cabeça estreita ou deslocada (galinha,
+   * gatinha, cavalo) precisam de um pouco.
    */
   rostoZoom: number;
 

@@ -38,8 +38,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* O zoom aproxima a cabeça; a origem no topo evita cortar as orelhas. */
-    transform-origin: center 22%;
+    /*
+     * O enquadramento vem de `object-position` (calibrado por animal a partir
+     * da posição real da cabeça em cada imagem). O zoom apenas aproxima, com
+     * origem no centro para não deslocar o que object-position já enquadrou.
+     */
+    transform-origin: center center;
   }
 }
 
