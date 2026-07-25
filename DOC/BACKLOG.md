@@ -52,15 +52,16 @@ Lista de atividades derivada de [ESPECIFICACAO.md](ESPECIFICACAO.md).
 
 ## Fase 2 — Núcleo do app
 
-- [ ] **2.1** `AnimalService`: catálogo dos 6 animais (id, imagem, som,
-      posição %, `object-position` do rosto para o círculo da faixa)
-- [ ] **2.2** `SettingsService` com Capacitor Preferences (nome, idioma, som,
-      música, background, `remove_ads`)
-- [ ] **2.3** Configurar `@ngx-translate` + carregamento de JSON local
-- [ ] **2.4** Traduções dos 6 idiomas (PT, EN, ES, FR, IT, DE) — textos de UI
-- [ ] **2.5** Nomes dos animais **silabados por idioma** (ex.: PT `VA-CA`,
-      EN `COW`, ES `VA-CA`, FR `VA-CHE`, IT `MUC-CA`, DE `KUH`)
-- [ ] **2.6** Detectar idioma do aparelho no primeiro uso (fallback: EN)
+- [x] **2.1** `AnimalService` — catálogo dos 6 animais com posição em %,
+      calibração do rosto (medida por animal) e tempos de idle defasados
+- [x] **2.2** `SettingsService` com Capacitor Preferences + signals, incluindo
+      `backgroundManual`
+- [x] **2.3** `@ngx-translate` **v18** (`provideTranslateService` +
+      `provideTranslateHttpLoader`), JSON local
+- [x] **2.4** Traduções dos 6 idiomas — 38 chaves idênticas em todos (validado)
+- [x] **2.5** Nomes silabados por idioma. Monossílabos (EN `COW`, DE `KUH`)
+      ficam **sem hífen** — separá-los seria incorreto
+- [x] **2.6** Idioma do aparelho no primeiro uso, com recuo para EN
 
 ## Fase 3 — Tela inicial
 
@@ -91,24 +92,24 @@ Lista de atividades derivada de [ESPECIFICACAO.md](ESPECIFICACAO.md).
 Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 2.2 (`SettingsService`) e 4.4 (seletor manual).
 
-- [ ] **4B.1** Adicionar `backgroundEscolhidoManualmente` (booleano) ao
+- [x] **4B.1** Adicionar `backgroundEscolhidoManualmente` (booleano) ao
       `SettingsService`
-- [ ] **4B.2** `SeasonalService.domingoDePascoa(ano)` — computus gregoriano
+- [x] **4B.2** `SeasonalService.domingoDePascoa(ano)` — computus gregoriano
       (Meeus/Jones/Butcher), offline
-- [ ] **4B.3** `SeasonalService.thanksgiving(ano)` — 4ª quinta-feira de novembro
-- [ ] **4B.4** `temaDaData(data, idioma)`: aplica as 5 janelas (Páscoa −7/+1;
+- [x] **4B.3** `SeasonalService.thanksgiving(ano)` — 4ª quinta-feira de novembro
+- [x] **4B.4** `temaDaData(data, idioma)`: aplica as 5 janelas (Páscoa −7/+1;
       **Festa Junina 01–30/06**; Halloween 24–31/10; Thanksgiving −7/+0;
       Natal 01–31/12), retornando `standard` fora de época e resolvendo
       sobreposição pela janela mais curta
-- [ ] **4B.5** Restringir por idioma os temas culturais: **Thanksgiving só em
+- [x] **4B.5** Restringir por idioma os temas culturais: **Thanksgiving só em
       EN**, **Festa Junina só em PT**. Nos demais idiomas seguem disponíveis
       apenas na troca manual
 - [ ] **4B.6** Aplicar na abertura do app e ao retornar do segundo plano,
       **somente** se `backgroundEscolhidoManualmente == false`
-- [ ] **4B.7** Testes unitários das datas: validar Páscoa 2024–2032
+- [x] **4B.7** Testes unitários das datas: validar Páscoa 2024–2032
       (31/03, 20/04, 05/04, 28/03, 16/04, 01/04, 21/04, 13/04, 28/03) e
       Thanksgiving 2024–2028 (28/11, 27/11, 26/11, 25/11, 23/11)
-- [ ] **4B.8** Testar bordas: primeiro e último dia de cada janela, virada de
+- [x] **4B.8** Testar bordas: primeiro e último dia de cada janela, virada de
       ano (31/12 → 01/01) e ano bissexto
 - [ ] **4B.9** Verificação manual com a data do aparelho alterada, confirmando
       que a escolha manual nunca é sobrescrita
@@ -127,10 +128,10 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [ ] **5.2** Posicionar imediatamente acima do banner, sem sobreposição
 - [ ] **5.3** Fade in / fade out
 - [ ] **5.4** Timer de 3 s, reiniciado ao tocar outro animal
-- [ ] **5.5** `AudioService`: pré-carregar sons, tocar um por vez
-- [ ] **5.6** Música de fundo em loop, volume suave, com *ducking* durante o
+- [x] **5.5** `AudioService`: pré-carregar sons, tocar um por vez
+- [x] **5.6** Música de fundo em loop, volume suave, com *ducking* durante o
       som do animal
-- [ ] **5.7** Pausar áudio quando o app vai a segundo plano
+- [x] **5.7** Pausar áudio quando o app vai a segundo plano
 - [x] **5.8** ~~Sons definitivos dos animais~~ — **entregues e processados**
       (ver 1.7); nenhum corte em tempo de reprodução é necessário, pois todos
       já cabem nos 3 s da faixa

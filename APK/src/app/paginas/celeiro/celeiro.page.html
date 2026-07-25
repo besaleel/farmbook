@@ -1,0 +1,112 @@
+<ion-content [fullscreen]="true" scrollY="false">
+  <div class="celeiro">
+    <!-- Palco: mantém a proporção do background em qualquer tela -->
+    <div class="palco" [style.background-image]="'url(' + caminhoDoFundo() + ')'"></div>
+
+    <!-- Área jogável: termina acima do rodapé para nenhum animal ficar oculto -->
+    <div class="area-animais">
+      @for (animal of animais; track animal.id) {
+        <button
+          class="animal"
+          type="button"
+          [class.reagindo]="reagindo() === animal.id"
+          [style.left.%]="animal.x"
+          [style.top.%]="animal.y"
+          [style.width.%]="animal.largura"
+          [style.--idle-duracao]="animal.idleDuracao + 's'"
+          [style.--idle-atraso]="animal.idleAtraso + 's'"
+          [attr.aria-label]="'animais.' + animal.id | translate"
+          (click)="tocarAnimal(animal)"
+        >
+          <img [src]="animal.imagem" [alt]="''" draggable="false" />
+        </button>
+      }
+    </div>
+
+    <!-- Barra superior -->
+    <header class="barra">
+      <div class="usuario">
+        <span class="avatar">{{ inicial() }}</span>
+        <span class="nome fb-fonte">
+          {{ settings.nome() || ('principal.amiguinho' | translate) }}
+        </span>
+      </div>
+
+      <div class="acoes">
+        <button
+          class="fb-icone-botao"
+          type="button"
+          [attr.aria-label]="'principal.idioma' | translate"
+          (click)="alternarPainel('idioma')"
+        >
+          🌐
+        </button>
+        <button
+          class="fb-icone-botao"
+          type="button"
+          [attr.aria-label]="'principal.background' | translate"
+          (click)="alternarPainel('background')"
+        >
+          🖼️
+        </button>
+        <button
+          class="fb-icone-botao"
+          type="button"
+          [class.desligado]="!settings.som()"
+          [attr.aria-label]="'principal.som' | translate"
+          (click)="alternarSom()"
+        >
+          {{ settings.som() ? '🔊' : '🔇' }}
+        </button>
+      </div>
+    </header>
+
+    <!-- Painel de idioma -->
+    @if (painel() === 'idioma') {
+      <div class="painel" role="dialog">
+        @for (idioma of i18n.idiomas; track idioma.id) {
+          <button
+            class="opcao"
+            type="button"
+            [class.ativo]="settings.idioma() === idioma.id"
+            (click)="escolherIdioma(idioma.id)"
+          >
+            <span class="emoji">{{ idioma.bandeira }}</span>
+            <span>{{ idioma.rotulo }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    <!-- Painel de cenário -->
+    @if (painel() === 'background') {
+      <div class="painel" role="dialog">
+        @for (bg of backgrounds; track bg) {
+          <button
+            class="opcao"
+            type="button"
+            [class.ativo]="settings.background() === bg"
+            (click)="escolherBackground(bg)"
+          >
+            <img class="miniatura" [src]="'assets/backgrounds/' + bg + '.webp'" [alt]="''" />
+            <span>{{ 'backgrounds.' + bg | translate }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    <!-- Rodapé: faixa do nome, botão de remover anúncio e banner -->
+    <footer class="rodape">
+      <fb-faixa-animal [animal]="animalNaFaixa()" [visivel]="faixaVisivel()" />
+
+      @if (!settings.removeAds()) {
+        <button class="remover-anuncio" type="button">
+          {{ 'principal.removerAnuncio' | translate }}
+        </button>
+        <div class="banner" aria-hidden="true">
+          <!-- Espaço reservado ao banner nativo (Fase 6) -->
+        </div>
+      }
+    </footer>
+  </div>
+</ion-content>

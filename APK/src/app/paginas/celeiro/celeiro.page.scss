@@ -1,0 +1,250 @@
+.celeiro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* Cor de preenchimento para as sobras fora da proporção do cenário. */
+  background: #6b4a2a;
+}
+
+/**
+ * Palco: ocupa a tela mantendo a proporção do cenário (2:3).
+ * `cover` garante que não sobre faixa vazia; o excesso sangra pelas bordas,
+ * onde não há elemento essencial nas artes.
+ *
+ * O fundo cobre a tela inteira, mas a área de posicionamento dos animais
+ * (`.area-animais`) termina acima do rodapé — assim nenhum animal fica
+ * escondido atrás da faixa ou do banner.
+ */
+.palco {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.area-animais {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  /* Reserva o rodapé: faixa (76px) + botão (~34px) + banner + safe area. */
+  bottom: calc(
+    var(--fb-altura-banner) + 110px + env(safe-area-inset-bottom)
+  );
+}
+
+/* ---------------------------------------------------------------- animais */
+
+.animal {
+  position: absolute;
+  /* x / y indicam o centro do animal. */
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Sombra suave assenta o animal no chão. */
+    filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.32));
+    animation: respirar var(--idle-duracao, 4s) ease-in-out infinite;
+    animation-delay: var(--idle-atraso, 0s);
+    will-change: transform;
+  }
+
+  &.reagindo img {
+    animation: reagir 0.6s ease-out;
+  }
+}
+
+/**
+ * Idle: respiração leve com balanço.
+ * Só transform — não dispara layout nem repaint, mantendo 60fps
+ * em aparelhos de entrada (ESPECIFICACAO § 6).
+ */
+@keyframes respirar {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  35% {
+    transform: scale(1.025, 0.985) rotate(-1.1deg);
+  }
+  70% {
+    transform: scale(0.99, 1.015) rotate(1.1deg);
+  }
+}
+
+/** Reação ao toque: pulinho com squash & stretch. */
+@keyframes reagir {
+  0% {
+    transform: scale(1, 1) translateY(0);
+  }
+  25% {
+    transform: scale(1.12, 0.86) translateY(2%);
+  }
+  50% {
+    transform: scale(0.94, 1.14) translateY(-8%);
+  }
+  75% {
+    transform: scale(1.05, 0.95) translateY(0);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
+}
+
+/* ----------------------------------------------------------- barra superior */
+
+.barra {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: calc(env(safe-area-inset-top) + 0.6rem) 0.7rem 0;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 45%;
+  padding: 0.3rem 0.9rem 0.3rem 0.3rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--fb-sombra);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--fb-amarelo);
+  color: var(--fb-texto);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.usuario .nome {
+  overflow: hidden;
+  color: var(--fb-texto);
+  font-size: 1.05rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.acoes {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.fb-icone-botao.desligado {
+  opacity: 0.55;
+}
+
+/* ------------------------------------------------------------------ painéis */
+
+.painel {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 4rem);
+  right: 0.7rem;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 62vh;
+  padding: 0.6rem;
+  overflow-y: auto;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26);
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.3rem 1rem 0.3rem 0.4rem;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--fb-texto);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &.ativo {
+    background: var(--fb-amarelo);
+  }
+}
+
+.emoji {
+  font-size: 24px;
+}
+
+.miniatura {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------------ rodapé */
+
+.rodape {
+  position: relative;
+  z-index: 5;
+  margin-top: auto;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.remover-anuncio {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.banner {
+  width: 100%;
+  height: var(--fb-altura-banner);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .animal img {
+    animation: none;
+  }
+  .animal.reagindo img {
+    animation: reagir-suave 0.3s ease-out;
+  }
+
+  @keyframes reagir-suave {
+    50% {
+      transform: scale(1.05);
+    }
+  }
+}

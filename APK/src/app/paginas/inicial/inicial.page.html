@@ -1,0 +1,65 @@
+<ion-content [fullscreen]="true" scrollY="false">
+  <div class="tela">
+    <!-- Controles superiores: idioma e música -->
+    <div class="topo">
+      <button
+        class="fb-icone-botao"
+        type="button"
+        [attr.aria-label]="'inicial.idioma' | translate"
+        (click)="mostrarIdiomas.set(!mostrarIdiomas())"
+      >
+        <span class="bandeira">{{ bandeiraAtual() }}</span>
+      </button>
+
+      <button
+        class="fb-icone-botao"
+        type="button"
+        [attr.aria-label]="'inicial.musica' | translate"
+        [class.desligado]="!settings.musica()"
+        (click)="alternarMusica()"
+      >
+        {{ settings.musica() ? '♪' : '✕' }}
+      </button>
+    </div>
+
+    <!-- Seletor de idioma -->
+    @if (mostrarIdiomas()) {
+      <div class="idiomas" role="dialog">
+        @for (idioma of i18n.idiomas; track idioma.id) {
+          <button
+            class="idioma"
+            type="button"
+            [class.ativo]="settings.idioma() === idioma.id"
+            (click)="escolherIdioma(idioma.id)"
+          >
+            <span class="bandeira">{{ idioma.bandeira }}</span>
+            <span class="rotulo">{{ idioma.rotulo }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    <img class="logo" src="assets/logo.webp" alt="Farm Book" />
+
+    <div class="cartao">
+      <p class="boas-vindas fb-fonte">{{ 'inicial.boasVindas' | translate }}</p>
+      <label class="pergunta" for="campo-nome">
+        {{ 'inicial.perguntaNome' | translate }}
+      </label>
+      <input
+        id="campo-nome"
+        class="campo-nome fb-fonte"
+        type="text"
+        maxlength="20"
+        autocomplete="off"
+        [placeholder]="'inicial.placeholderNome' | translate"
+        [ngModel]="nome()"
+        (ngModelChange)="nome.set($event)"
+      />
+    </div>
+
+    <button class="fb-botao comecar" type="button" (click)="comecar()">
+      {{ 'inicial.comecar' | translate }}
+    </button>
+  </div>
+</ion-content>
