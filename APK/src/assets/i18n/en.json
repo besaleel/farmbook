@@ -1,0 +1,54 @@
+{
+  "app": {
+    "titulo": "Farm Book"
+  },
+  "inicial": {
+    "boasVindas": "Hello!",
+    "perguntaNome": "What is your name?",
+    "placeholderNome": "Type your name",
+    "comecar": "START",
+    "idioma": "Language",
+    "musica": "Music"
+  },
+  "principal": {
+    "ola": "Hi, {{nome}}!",
+    "amiguinho": "Little friend",
+    "removerAnuncio": "Remove Ads",
+    "idioma": "Language",
+    "background": "Scene",
+    "som": "Sound"
+  },
+  "backgrounds": {
+    "standard": "Farm",
+    "halloween": "Halloween",
+    "natalino": "Christmas",
+    "pascoa": "Easter",
+    "thanksgiving": "Thanksgiving",
+    "festejunina": "June Festival"
+  },
+  "animais": {
+    "cavalo": "HORSE",
+    "galinha": "HEN",
+    "gatinha": "CAT",
+    "ovelha": "SHEEP",
+    "porco": "PIG",
+    "vaca": "COW"
+  },
+  "pagamento": {
+    "titulo": "Remove Ads",
+    "descricao": "Play with no ads forever!",
+    "comprar": "Buy",
+    "restaurar": "Restore purchase",
+    "fechar": "Close",
+    "sucesso": "Ads removed! Thank you!",
+    "erro": "The purchase could not be completed.",
+    "barreiraTitulo": "Grown-ups only",
+    "barreiraPergunta": "How much is {{a}} + {{b}}?",
+    "barreiraErro": "Wrong answer."
+  },
+  "comum": {
+    "cancelar": "Cancel",
+    "confirmar": "Confirm",
+    "voltar": "Back"
+  }
+}

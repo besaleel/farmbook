@@ -57,6 +57,41 @@ async function converter(origem, destino, largura, altura, rotulo) {
   return { ok: true, bytes: depois };
 }
 
+/**
+ * Converte um animal recortando a margem transparente ao redor da silhueta.
+ *
+ * Os PNGs originais trazem 30-40% de área vazia em volta do animal. Sem o
+ * recorte, essa margem viraria área de toque morta (a criança tocaria "no
+ * animal" sem resposta) e dificultaria o posicionamento por percentual.
+ * `trim` deixa a imagem justa à silhueta; a proporção real de cada animal
+ * é então preservada pela altura fixa.
+ */
+async function converterAnimal(nome) {
+  const origem = path.join(ORIGEM, `${nome}.png`);
+  const destino = path.join(DESTINO, 'animais', `${nome}.webp`);
+  if (!existsSync(origem)) {
+    console.log(`  [PULADO] ${nome} — origem não encontrada`);
+    return { ok: false, bytes: 0 };
+  }
+  const antes = (await stat(origem)).size;
+
+  const recortado = await sharp(origem)
+    .trim({ threshold: 10 }) // remove a moldura transparente
+    .toBuffer();
+
+  await sharp(recortado)
+    .resize({ height: 768, fit: 'inside', withoutEnlargement: false })
+    .webp({ quality: QUALIDADE, effort: 6 })
+    .toFile(destino);
+
+  const meta = await sharp(destino).metadata();
+  const depois = (await stat(destino)).size;
+  console.log(
+    `  ${nome.padEnd(28)} ${kb(antes).padStart(9)} -> ${kb(depois).padStart(8)}  ${meta.width}x${meta.height}`
+  );
+  return { ok: true, bytes: depois };
+}
+
 async function main() {
   console.log('\nPipeline de assets — Farm Book');
   console.log(`origem : ${ORIGEM}`);
@@ -68,15 +103,9 @@ async function main() {
 
   let total = 0;
 
-  console.log('Animais (512x768, alpha preservado):');
+  console.log('Animais (recortados na silhueta, altura 768, alpha preservado):');
   for (const nome of ANIMAIS) {
-    const r = await converter(
-      path.join(ORIGEM, `${nome}.png`),
-      path.join(DESTINO, 'animais', `${nome}.webp`),
-      512,
-      768,
-      nome
-    );
+    const r = await converterAnimal(nome);
     total += r.bytes;
   }
 

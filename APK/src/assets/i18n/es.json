@@ -1,0 +1,54 @@
+{
+  "app": {
+    "titulo": "Farm Book"
+  },
+  "inicial": {
+    "boasVindas": "¡Hola!",
+    "perguntaNome": "¿Cómo te llamas?",
+    "placeholderNome": "Escribe tu nombre",
+    "comecar": "EMPEZAR",
+    "idioma": "Idioma",
+    "musica": "Música"
+  },
+  "principal": {
+    "ola": "¡Hola, {{nome}}!",
+    "amiguinho": "Amiguito",
+    "removerAnuncio": "Quitar Anuncios",
+    "idioma": "Idioma",
+    "background": "Escenario",
+    "som": "Sonido"
+  },
+  "backgrounds": {
+    "standard": "Granja",
+    "halloween": "Halloween",
+    "natalino": "Navidad",
+    "pascoa": "Pascua",
+    "thanksgiving": "Acción de Gracias",
+    "festejunina": "Fiesta de San Juan"
+  },
+  "animais": {
+    "cavalo": "CA-BA-LLO",
+    "galinha": "GA-LLI-NA",
+    "gatinha": "GA-TI-TA",
+    "ovelha": "O-VE-JA",
+    "porco": "CER-DO",
+    "vaca": "VA-CA"
+  },
+  "pagamento": {
+    "titulo": "Quitar Anuncios",
+    "descricao": "¡Juega sin anuncios para siempre!",
+    "comprar": "Comprar",
+    "restaurar": "Restaurar compra",
+    "fechar": "Cerrar",
+    "sucesso": "¡Anuncios eliminados! ¡Gracias!",
+    "erro": "No se pudo completar la compra.",
+    "barreiraTitulo": "Solo para adultos",
+    "barreiraPergunta": "¿Cuánto es {{a}} + {{b}}?",
+    "barreiraErro": "Respuesta incorrecta."
+  },
+  "comum": {
+    "cancelar": "Cancelar",
+    "confirmar": "Confirmar",
+    "voltar": "Volver"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "app": {
+    "titulo": "Farm Book"
+  },
+  "inicial": {
+    "boasVindas": "Bonjour !",
+    "perguntaNome": "Comment t'appelles-tu ?",
+    "placeholderNome": "Écris ton prénom",
+    "comecar": "COMMENCER",
+    "idioma": "Langue",
+    "musica": "Musique"
+  },
+  "principal": {
+    "ola": "Salut, {{nome}} !",
+    "amiguinho": "Petit ami",
+    "removerAnuncio": "Supprimer les pubs",
+    "idioma": "Langue",
+    "background": "Décor",
+    "som": "Son"
+  },
+  "backgrounds": {
+    "standard": "Ferme",
+    "halloween": "Halloween",
+    "natalino": "Noël",
+    "pascoa": "Pâques",
+    "thanksgiving": "Thanksgiving",
+    "festejunina": "Fête de la Saint-Jean"
+  },
+  "animais": {
+    "cavalo": "CHE-VAL",
+    "galinha": "POULE",
+    "gatinha": "CHAT",
+    "ovelha": "MOU-TON",
+    "porco": "CO-CHON",
+    "vaca": "VA-CHE"
+  },
+  "pagamento": {
+    "titulo": "Supprimer les pubs",
+    "descricao": "Joue sans publicité pour toujours !",
+    "comprar": "Acheter",
+    "restaurar": "Restaurer l'achat",
+    "fechar": "Fermer",
+    "sucesso": "Publicités supprimées ! Merci !",
+    "erro": "L'achat n'a pas pu être effectué.",
+    "barreiraTitulo": "Adultes seulement",
+    "barreiraPergunta": "Combien font {{a}} + {{b}} ?",
+    "barreiraErro": "Mauvaise réponse."
+  },
+  "comum": {
+    "cancelar": "Annuler",
+    "confirmar": "Confirmer",
+    "voltar": "Retour"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "app": {
+    "titulo": "Farm Book"
+  },
+  "inicial": {
+    "boasVindas": "Hallo!",
+    "perguntaNome": "Wie heißt du?",
+    "placeholderNome": "Schreib deinen Namen",
+    "comecar": "START",
+    "idioma": "Sprache",
+    "musica": "Musik"
+  },
+  "principal": {
+    "ola": "Hallo, {{nome}}!",
+    "amiguinho": "Kleiner Freund",
+    "removerAnuncio": "Werbung entfernen",
+    "idioma": "Sprache",
+    "background": "Kulisse",
+    "som": "Ton"
+  },
+  "backgrounds": {
+    "standard": "Bauernhof",
+    "halloween": "Halloween",
+    "natalino": "Weihnachten",
+    "pascoa": "Ostern",
+    "thanksgiving": "Erntedankfest",
+    "festejunina": "Johannisfest"
+  },
+  "animais": {
+    "cavalo": "PFERD",
+    "galinha": "HUHN",
+    "gatinha": "KAT-ZE",
+    "ovelha": "SCHAF",
+    "porco": "SCHWEIN",
+    "vaca": "KUH"
+  },
+  "pagamento": {
+    "titulo": "Werbung entfernen",
+    "descricao": "Spiele für immer ohne Werbung!",
+    "comprar": "Kaufen",
+    "restaurar": "Kauf wiederherstellen",
+    "fechar": "Schließen",
+    "sucesso": "Werbung entfernt! Danke!",
+    "erro": "Der Kauf konnte nicht abgeschlossen werden.",
+    "barreiraTitulo": "Nur für Erwachsene",
+    "barreiraPergunta": "Wie viel ist {{a}} + {{b}}?",
+    "barreiraErro": "Falsche Antwort."
+  },
+  "comum": {
+    "cancelar": "Abbrechen",
+    "confirmar": "Bestätigen",
+    "voltar": "Zurück"
+  }
+}

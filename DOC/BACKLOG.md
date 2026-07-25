@@ -8,26 +8,33 @@ Lista de atividades derivada de [ESPECIFICACAO.md](ESPECIFICACAO.md).
 
 ## Fase 0 — Fundação
 
-- [ ] **0.1** Inicializar repositório git na raiz (`FARMBOOK/`) com `.gitignore`
-      (`node_modules/`, `APK/www/`, `APK/android/local.properties`,
-      `APK/android/keystore.properties`, `*.jks`, `DEPLOY/*.aab`)
-- [ ] **0.2** Criar projeto Ionic/Angular standalone em `APK/`
-- [ ] **0.3** Adicionar Capacitor + plataforma Android; `appId=com.farmbook.app`,
+- [x] **0.1** Repositório git inicializado com `.gitignore` protegendo
+      `node_modules/`, `APK/www/`, `local.properties`, `keystore.properties`,
+      `*.jks` e `DEPLOY/*.aab`
+- [x] **0.2** Projeto criado em `APK/` — **Ionic 8 + Angular 20**
+- [x] **0.3** Capacitor 8 + plataforma Android; `appId=com.farmbook.app`,
       `appName=Farm Book`
-- [ ] **0.4** Travar orientação em **retrato**
-- [ ] **0.5** Validar build vazio rodando no aparelho/emulador
+- [x] **0.4** Orientação travada em **retrato** (`android:screenOrientation`
+      no `AndroidManifest.xml`)
+- [x] **0.5** Build validado: `npm run build` + `npx cap sync` + `gradlew
+      assembleDebug` → **app-debug.apk, 7,16 MB**
+- [x] **0.6** APK instalado e aberto em aparelho real — validado pelo usuário
 
 ## Fase 1 — Pipeline de assets
 
-- [ ] **1.1** Script de otimização (`PROJECT/assets/` → `APK/src/assets/`):
-      PNG → WebP q85, animais ~512×768, backgrounds ~1080×1620
-- [ ] **1.2** Gerar e conferir os 6 animais em WebP (validar que a
-      transparência foi preservada)
-- [ ] **1.3** Gerar os **6** backgrounds em WebP a 1080×1620 (standard,
-      halloween, natalino, pascoa, thanksgiving, festejunina) — ~1,3 MB no
-      total. Os `.svg` são ignorados pelo pipeline (ESPECIFICACAO § 3.1)
-- [ ] **1.4** Gerar ícone do app e splash a partir de `logo.png`
-- [ ] **1.5** Conferir peso total dos assets (**meta: < 20 MB**)
+- [x] **1.1** `APK/tools/build-assets.mjs` (`npm run assets`) — converte
+      `PROJECT/assets/` → `APK/src/assets/` com sharp, WebP q85
+- [x] **1.2** 6 animais em WebP 512×768 — **transparência conferida**
+      (alpha 0–255, 63–71% de pixels transparentes), 346 KB no total
+- [x] **1.3** 6 backgrounds em WebP 1080×1620 — 1.246 KB no total. Os `.svg`
+      são ignorados pelo pipeline (ESPECIFICACAO § 3.1)
+- [x] **1.4** `APK/tools/build-icons.mjs` (`npm run icons`) — ícones Android
+      nas 5 densidades + foreground adaptativo (safe zone 66%) +
+      `DEPLOY/store-assets/icon-512.png` sem alpha
+- [x] **1.5** Peso conferido: **1,75 MB** de assets embarcados
+      (meta era < 20 MB); APK debug completo com 7,16 MB
+- [ ] **1.10** *(opcional, Fase 7)* Reduzir os ~398 KB de ícones SVG que o
+      Ionic embarca por padrão, mantendo só os efetivamente usados
 - [x] **1.6** ~~Placeholders silenciosos~~ — desnecessário: os sons dos animais
       foram entregues
 - [x] **1.7** Processar os sons dos animais: cortar cavalo/galinha/gatinha em
@@ -39,7 +46,8 @@ Lista de atividades derivada de [ESPECIFICACAO.md](ESPECIFICACAO.md).
         -af "loudnorm=I=-16:TP=-1.5:LRA=11[,afade=t=out:st=<corte-0.15>:d=0.15]" \
         -ac 1 -ar 44100 -b:a 96k <destino>
       ```
-- [ ] **1.8** Copiar `PROJECT/assets/sounds/` → `APK/src/assets/sounds/`
+- [x] **1.8** Sons copiados para `APK/src/assets/sounds/` — automatizado
+      dentro de `npm run assets` (144 KB)
 - [ ] 🔒 **1.9** Adicionar a música de fundo — *pendente de entrega do cliente*
 
 ## Fase 2 — Núcleo do app
