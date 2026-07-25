@@ -116,6 +116,35 @@
   font-size: 1.8rem;
 }
 
+/**
+ * Links legais: discretos e pequenos de propósito — são para o adulto,
+ * não competem com o botão "Começar" na atenção da criança.
+ */
+.legal {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+  color: #5c7a3a;
+  font-size: 0.82rem;
+
+  button {
+    /* Texto pequeno (é para o adulto), mas alvo de toque confortável. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.3rem;
+    border: none;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+}
+
 /* Telas muito baixas (paisagem forçada ou aparelhos pequenos) */
 @media (max-height: 560px) {
   .logo {

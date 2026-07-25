@@ -50,5 +50,9 @@
     "cancelar": "Cancel",
     "confirmar": "Confirm",
     "voltar": "Back"
+  },
+  "legal": {
+    "termos": "Terms of Use",
+    "privacidade": "Privacy Policy"
   }
 }

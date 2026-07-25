@@ -61,5 +61,19 @@
     <button class="fb-botao comecar" type="button" (click)="comecar()">
       {{ 'inicial.comecar' | translate }}
     </button>
+
+    <!--
+      Documentos legais. Abrem no navegador do sistema, fora do app, como
+      exige a Política para Famílias (ESPECIFICACAO § 6.1).
+    -->
+    <nav class="legal">
+      <button type="button" (click)="abrirLegal('termos')">
+        {{ 'legal.termos' | translate }}
+      </button>
+      <span aria-hidden="true">·</span>
+      <button type="button" (click)="abrirLegal('privacidade')">
+        {{ 'legal.privacidade' | translate }}
+      </button>
+    </nav>
   </div>
 </ion-content>

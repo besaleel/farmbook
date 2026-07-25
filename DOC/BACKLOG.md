@@ -172,10 +172,19 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [x] **7.2a** Nos dois documentos, declarar explicitamente o **Compromisso com
       a Política para Famílias do Google Play** e a ausência de coleta de
       dados de crianças (ESPECIFICACAO § 6.1)
-- [ ] **7.3** Hospedar ambos em URL pública (exigido pela Play Console)
-- [x] **7.4** `build.gradle` preparado para ler `keystore.properties`, com
-      aviso explícito quando ausente. ⚠️ **Criar o keystore em si continua
-      sendo tarefa sua** — ver GERAR-AAB.md § 2
+- [x] **7.3** Documentos publicados e verificados (HTTP 200, conteúdo idêntico
+      ao gerado em `DEPLOY/`):
+      - https://contaasbencaos.com.br/bananaking/termos-de-uso.html
+      - https://contaasbencaos.com.br/bananaking/politica-privacidade.html
+      *(o caminho contém "bananaking" por reaproveitar a hospedagem; o
+      conteúdo é do Farm Book)*
+- [x] **7.3a** Links para os dois documentos na **tela inicial**, abrindo no
+      navegador do sistema via Capacitor Browser — exigência da Política para
+      Famílias para links externos
+- [x] **7.4** Keystore **criado e configurado** pelo cliente:
+      `farmbook-release.jks`, alias `farmbook`, RSA 2048/SHA384, válido até
+      **2053**. Assinatura confirmada no APK de release
+      (`CN=Besaleel Vieira, OU=Maratimba Games`)
 - [x] **7.5** Definir `versionCode` / `versionName` iniciais
 - [x] **7.6** Ícone 512×512 → `DEPLOY/store-assets/icon-512.png`
 - [x] **7.7** Feature graphic 1024×500 + screenshots
@@ -184,7 +193,8 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
       coletado", e marcar na Play Console a exibição da mensagem
       **"Compromisso com a Política para Famílias do Google Play"** na seção
       Segurança dos dados — decisão confirmada pelo cliente
-- [ ] **7.10** Gerar o AAB seguindo [GERAR-AAB.md](GERAR-AAB.md)
+- [x] **7.10** AAB assinado gerado: `DEPLOY/farmbook-release-v01.aab`
+      (12,3 MB, versionCode 1 / versionName 1.0.0)
 - [ ] **7.11** Publicar em teste interno e validar em aparelho real
 
 ## Fase 8 — Melhorias (pós-lançamento)

@@ -50,5 +50,9 @@
     "cancelar": "Abbrechen",
     "confirmar": "Bestätigen",
     "voltar": "Zurück"
+  },
+  "legal": {
+    "termos": "Nutzungsbedingungen",
+    "privacidade": "Datenschutzerklärung"
   }
 }
