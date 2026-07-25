@@ -18,7 +18,10 @@ import { readFile, writeFile, mkdir, readdir, copyFile, stat } from 'node:fs/pro
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import sharp from 'sharp';
+import ffmpegPath from 'ffmpeg-static';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RAIZ = path.resolve(__dirname, '../..');
@@ -26,6 +29,8 @@ const ORIGEM = path.join(RAIZ, 'PROJECT/assets');
 const DESTINO = path.join(__dirname, '../src/assets');
 
 const QUALIDADE = 85;
+
+const ARQUIVO_MUSICA = 'background-music.mp3';
 
 const ANIMAIS = ['cavalo', 'galinha', 'gatinha', 'ovelha', 'porco', 'vaca'];
 const BACKGROUNDS = [
@@ -55,6 +60,40 @@ async function converter(origem, destino, largura, altura, rotulo) {
     `  ${rotulo.padEnd(28)} ${kb(antes).padStart(9)} -> ${kb(depois).padStart(8)}  (-${reducao}%)`
   );
   return { ok: true, bytes: depois };
+}
+
+/**
+ * Processa a música de fundo.
+ *
+ * O arquivo entregue vinha muito baixo (RMS entre -41 e -46 dB) e, como a
+ * música toca a 25% do volume no jogo, ficaria inaudível no alto-falante de
+ * um celular. Também vinha em 256 kbps estéreo — qualidade desnecessária
+ * para uma trilha suave em loop.
+ *
+ * Aplicado: normalização (alvo mais baixo que o dos efeitos, para a música
+ * ficar de fundo), mono e 96 kbps. As pontas já estão em silêncio, então o
+ * loop emenda sem estalo — nenhum corte é necessário.
+ */
+async function converterMusica(origem, destino) {
+  const antes = (await stat(origem)).size;
+  const exec = promisify(execFile);
+
+  await exec(ffmpegPath, [
+    '-y', '-v', 'error',
+    '-i', origem,
+    '-af', 'loudnorm=I=-20:TP=-2:LRA=12',
+    '-ac', '1',
+    '-ar', '44100',
+    '-b:a', '96k',
+    destino,
+  ]);
+
+  const depois = (await stat(destino)).size;
+  const reducao = (100 * (1 - depois / antes)).toFixed(0);
+  console.log(
+    `  ${ARQUIVO_MUSICA.padEnd(28)} ${kb(antes).padStart(9)} -> ${kb(depois).padStart(8)}  (-${reducao}%, normalizada)`
+  );
+  return depois;
 }
 
 /**
@@ -131,13 +170,21 @@ async function main() {
   );
   total += rl.bytes;
 
-  console.log('\nSons (copiados de PROJECT/assets/sounds/):');
+  console.log('\nSons (de PROJECT/assets/sounds/):');
   const dirSons = path.join(ORIGEM, 'sounds');
   if (existsSync(dirSons)) {
     for (const arquivo of await readdir(dirSons)) {
       if (!arquivo.endsWith('.mp3')) continue;
+      const origem = path.join(dirSons, arquivo);
       const destino = path.join(DESTINO, 'sounds', arquivo);
-      await copyFile(path.join(dirSons, arquivo), destino);
+
+      if (arquivo === ARQUIVO_MUSICA) {
+        total += await converterMusica(origem, destino);
+        continue;
+      }
+
+      // Efeitos já vêm processados (ver BACKLOG 1.7): apenas copiar.
+      await copyFile(origem, destino);
       const bytes = (await stat(destino)).size;
       total += bytes;
       console.log(`  ${arquivo.padEnd(28)} ${kb(bytes).padStart(9)}`);

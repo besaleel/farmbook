@@ -55,7 +55,9 @@ Lista de atividades derivada de [ESPECIFICACAO.md](ESPECIFICACAO.md).
       ```
 - [x] **1.8** Sons copiados para `APK/src/assets/sounds/` — automatizado
       dentro de `npm run assets` (144 KB)
-- [ ] 🔒 **1.9** Adicionar a música de fundo — *pendente de entrega do cliente*
+- [x] **1.9** Música de fundo adicionada e processada — 59,4 s em loop.
+      Normalizada (RMS −42,8 → −26,4 dB: no volume original seria inaudível
+      a 25%), mono 96 kbps: 1.856 → 696 KB
 
 ## Fase 2 — Núcleo do app
 
@@ -142,8 +144,9 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [x] **5.8** ~~Sons definitivos dos animais~~ — **entregues e processados**
       (ver 1.7); nenhum corte em tempo de reprodução é necessário, pois todos
       já cabem nos 3 s da faixa
-- [ ] 🔒 **5.9** Adicionar **música de fundo** sem direitos autorais
-      — *pendente de entrega do cliente*
+- [x] **5.9** Música de fundo integrada (ver 1.9). Cadeia de áudio verificada
+      no navegador: toca em loop a 25%, faz ducking para 6% durante o som do
+      animal e restaura depois. Pontas em silêncio — o loop emenda sem estalo
 - [ ] **5.10** Validar em aparelho real que o som termina antes ou junto com o
       fim da faixa de 3 s (maior som: galinha, 2,99 s)
 
