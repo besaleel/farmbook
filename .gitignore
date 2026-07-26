@@ -24,6 +24,14 @@ APK/android/capacitor-cordova-android-plugins/
 DEPLOY/*.aab
 DEPLOY/*.apk
 
+# Material de trabalho local — fora do repositório público.
+# Fontes das artes (SVG/PNG/GLB), áudios originais, prints de teste e
+# assets da loja: pesados e sem utilidade para quem lê o código.
+PROJECT/
+DEPLOY/
+.calib.json
+*.pdf
+
 # Sistema / editor
 Thumbs.db
 Desktop.ini
