@@ -7,6 +7,8 @@
   overflow: hidden;
   /* Cor de preenchimento para as sobras fora da proporção do cenário. */
   background: #6b4a2a;
+  /* Referência para o `.cenario` medir a tela em cqw/cqh. */
+  container-type: size;
 }
 
 /**
@@ -26,22 +28,70 @@
   background-repeat: no-repeat;
 }
 
+/**
+ * Caixa do cenário: reproduz em CSS o mesmo enquadramento que o
+ * `background-size: cover` do `.palco` aplica à arte.
+ *
+ * É o coração do posicionamento. Os animais precisam acompanhar a cerca e a
+ * linha do chão DESENHADAS no fundo, não as bordas da tela — que variam com o
+ * aparelho, o rodapé e a safe area. Ancorando os dois no mesmo sistema de
+ * coordenadas, um animal em `y: 53%` cai sempre no mesmo ponto da arte, em
+ * qualquer resolução.
+ *
+ * `cover` escolhe a maior das duas escalas; `max()` sobre as duas dimensões
+ * reproduz essa mesma escolha. A caixa fica centrada e sangra pelas bordas,
+ * exatamente como o fundo.
+ */
+.cenario {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /**
+   * `cover` = a maior das duas escalas. Em telas mais estreitas que 2:3
+   * (todo celular moderno) quem manda é a altura: a caixa fica com a altura
+   * cheia e transborda na largura. `max()` cobre também o caso raro de uma
+   * tela mais larga que 2:3, onde quem manda é a largura.
+   */
+  width: max(100%, 100cqh * 2 / 3);
+  height: max(100cqw * 3 / 2, 100%);
+  transform: translate(-50%, -50%);
+  /* Só enquadra — os toques pertencem aos animais. */
+  pointer-events: none;
+}
+
+/**
+ * Área jogável: o cenário MENOS a parte que o rodapé cobre.
+ *
+ * O recuo de baixo é o que faz `y: 50%` cair no centro do que a criança
+ * realmente vê, e não no centro geométrico da arte — cuja metade inferior a
+ * faixa e o banner escondem. Sem ele os animais ficam baixos demais mesmo
+ * estando centrados na imagem.
+ *
+ * O recuo vai em px porque o `.cenario`, apesar de escalar com a arte, é
+ * posicionado em px de tela como qualquer caixa — então 166px aqui cobrem
+ * exatamente a mesma tira física que o rodapé ocupa. O que muda entre
+ * aparelhos é quanto isso representa em % do cenário, e é justamente por
+ * isso que o recuo fica no CSS (que enxerga a tela) e não nos `y` do
+ * catálogo (que são fixos).
+ *
+ * A parte de baixo do cenário continua VISÍVEL — o corte vale só para o
+ * posicionamento, não para o desenho.
+ */
 .area-animais {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
-  /* Reserva o rodapé: faixa (76px) + botão (~34px) + banner + safe area. */
-  bottom: calc(
-    var(--fb-altura-banner) + 110px + env(safe-area-inset-bottom)
-  );
+  /* faixa (76px) + botão (~34px) + banner + safe area. */
+  bottom: calc(110px + var(--fb-altura-banner) + env(safe-area-inset-bottom));
+  pointer-events: auto;
 }
 
 /* ---------------------------------------------------------------- animais */
 
 .animal {
   position: absolute;
-  /* x / y indicam o centro do animal. */
+  /* x / y indicam o centro do animal, em coordenadas do cenário. */
   transform: translate(-50%, -50%);
   padding: 0;
   border: none;

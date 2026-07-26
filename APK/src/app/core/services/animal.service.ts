@@ -4,10 +4,14 @@ import { Animal, AnimalId } from '../models/animal.model';
 /**
  * Catálogo dos animais do jogo.
  *
- * As posições são percentuais do palco para a composição sobreviver a
- * qualquer proporção de tela (ESPECIFICACAO § 5). Os animais ficam sobre a
- * área de terra batida do celeiro, sem sobreposição de áreas de toque, e
- * abaixo da barra superior / acima da faixa e do banner.
+ * As posições são percentuais da área jogável — a caixa 2:3 do cenário menos
+ * a tira coberta pelo rodapé — para a composição sobreviver a qualquer
+ * proporção de aparelho (ESPECIFICACAO § 5). Ancorar no cenário, e não na
+ * tela, é o que impede os animais de descolarem da cerca em telas mais
+ * altas; descontar o rodapé é o que faz `y: 50%` cair no centro do que se vê.
+ *
+ * Os valores vêm da calibração original, deslocados 2 pontos (~25px) para
+ * baixo: os animais assentam melhor no chão um pouco abaixo de onde estavam.
  *
  * `rostoX` / `rostoY` foram calibrados por animal a partir da posição real
  * da cabeça em cada imagem já recortada — as proporções variam bastante
@@ -21,7 +25,7 @@ export class AnimalService {
       imagem: 'assets/animais/vaca.webp',
       som: 'assets/sounds/vaca.mp3',
       x: 24,
-      y: 53,
+      y: 55,
       largura: 19,
       rostoX: 49,
       rostoY: 0,
@@ -34,7 +38,7 @@ export class AnimalService {
       imagem: 'assets/animais/cavalo.webp',
       som: 'assets/sounds/cavalo.mp3',
       x: 75,
-      y: 56,
+      y: 58,
       largura: 15,
       rostoX: 42,
       rostoY: 0,
@@ -47,7 +51,7 @@ export class AnimalService {
       imagem: 'assets/animais/porco.webp',
       som: 'assets/sounds/porco.mp3',
       x: 23,
-      y: 73,
+      y: 75,
       largura: 19,
       rostoX: 50,
       rostoY: 0,
@@ -60,7 +64,7 @@ export class AnimalService {
       imagem: 'assets/animais/ovelha.webp',
       som: 'assets/sounds/ovelha.mp3',
       x: 50,
-      y: 62,
+      y: 64,
       largura: 18,
       rostoX: 55,
       rostoY: 0,
@@ -73,7 +77,7 @@ export class AnimalService {
       imagem: 'assets/animais/gatinha.webp',
       som: 'assets/sounds/gatinha.mp3',
       x: 78,
-      y: 76,
+      y: 78,
       largura: 16,
       rostoX: 42,
       rostoY: 0,
@@ -86,7 +90,7 @@ export class AnimalService {
       imagem: 'assets/animais/galinha.webp',
       som: 'assets/sounds/galinha.mp3',
       x: 47,
-      y: 87,
+      y: 89,
       largura: 14,
       rostoX: 71,
       rostoY: 0,

@@ -3,24 +3,29 @@
     <!-- Palco: mantém a proporção do background em qualquer tela -->
     <div class="palco" [style.background-image]="'url(' + caminhoDoFundo() + ')'"></div>
 
-    <!-- Área jogável: termina acima do rodapé para nenhum animal ficar oculto -->
-    <div class="area-animais">
-      @for (animal of animais; track animal.id) {
-        <button
-          class="animal"
-          type="button"
-          [class.reagindo]="reagindo() === animal.id"
-          [style.left.%]="animal.x"
-          [style.top.%]="animal.y"
-          [style.width.%]="animal.largura"
-          [style.--idle-duracao]="animal.idleDuracao + 's'"
-          [style.--idle-atraso]="animal.idleAtraso + 's'"
-          [attr.aria-label]="'animais.' + animal.id | translate"
-          (click)="tocarAnimal(animal)"
-        >
-          <img [src]="animal.imagem" [alt]="''" draggable="false" />
-        </button>
-      }
+    <!--
+      Os animais vivem nas coordenadas do cenário, não nas da tela: assim
+      acompanham a cerca desenhada no fundo em qualquer resolução.
+    -->
+    <div class="cenario">
+      <div class="area-animais">
+        @for (animal of animais; track animal.id) {
+          <button
+            class="animal"
+            type="button"
+            [class.reagindo]="reagindo() === animal.id"
+            [style.left.%]="animal.x"
+            [style.top.%]="animal.y"
+            [style.width.%]="animal.largura"
+            [style.--idle-duracao]="animal.idleDuracao + 's'"
+            [style.--idle-atraso]="animal.idleAtraso + 's'"
+            [attr.aria-label]="'animais.' + animal.id | translate"
+            (click)="tocarAnimal(animal)"
+          >
+            <img [src]="animal.imagem" [alt]="''" draggable="false" />
+          </button>
+        }
+      </div>
     </div>
 
     <!-- Barra superior -->
