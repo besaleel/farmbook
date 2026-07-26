@@ -169,7 +169,8 @@ Copy-Item "C:\Sistemas\FARMBOOK\APK\android\app\build\outputs\bundle\release\app
 
 | Arquivo | versionCode | versionName | Observações |
 |---------|-------------|-------------|-------------|
-| _(nenhum release gerado até o momento)_ | | | |
+| `farmbook-release-v01.aab` | 1 | 1.0.0 | Primeiro build para teste interno. |
+| `farmbook-release-v02.aab` | 2 | 1.0.1 | Corrige o posicionamento dos animais (ancorados no cenário, não na tela). Anúncios ainda em modo de teste. |
 
 ---
 
@@ -191,11 +192,11 @@ Copy-Item "app\build\outputs\bundle\release\app-release.aab" `
 
 ## Assets de loja
 
-Situação atual: a pasta `DEPLOY/` está **vazia** — todos os itens abaixo ainda
-precisam ser gerados (Backlog 7.6–7.8).
+Todos os itens já estão gerados em `DEPLOY/` (fora do repositório público):
 
-- [ ] Ícone 512×512 → `DEPLOY/store-assets/icon-512.png`
-      (gerar a partir de `PROJECT/assets/logo.png`, que é 1254×1254)
-- [ ] Feature graphic 1024×500
-- [ ] Screenshots do celular (mínimo 2; recomendado 4–8)
-- [ ] Termo de uso e política de privacidade em HTML (Backlog 7.1–7.2)
+- [x] Ícone 512×512 → `DEPLOY/store-assets/icon-512.png`
+- [x] Feature graphic 1024×500 → `DEPLOY/store-assets/feature-graphic.png`
+- [x] Screenshots do celular (4) → `DEPLOY/store-assets/screenshot-*.png`
+- [x] Termo de uso e política de privacidade → `DEPLOY/termos-de-uso.html`,
+      `DEPLOY/politica-privacidade.html`
+- [x] Texto da ficha da loja → `DEPLOY/store-listing.md`
