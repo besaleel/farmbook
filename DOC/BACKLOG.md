@@ -238,9 +238,22 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
       coletado", e marcar na Play Console a exibição da mensagem
       **"Compromisso com a Política para Famílias do Google Play"** na seção
       Segurança dos dados — decisão confirmada pelo cliente
-- [x] **7.10** AAB assinado gerado: `DEPLOY/farmbook-release-v01.aab`
-      (12,3 MB, versionCode 1 / versionName 1.0.0)
-- [ ] **7.11** Publicar em teste interno e validar em aparelho real
+- [x] **7.10** AAB assinado gerado. Último: `DEPLOY/farmbook-release-v03.aab`
+      (12,4 MB, versionCode 3 / versionName 1.0.2). Histórico completo em
+      `DOC/GERAR-AAB.md`
+- [x] **7.11** Publicado em teste interno (v1.0.0 e v1.0.1) e validado em
+      aparelho real
+- [ ] **7.12** Publicar a **v1.0.2** — primeira versão que monetiza de fato
+      (ver 6.10) e que leva o anúncio do Florest Book (6.11).
+
+      Junto do AAB, apontar na Play Console as URLs novas:
+      `https://bza.tec.br/farmbook-termos-de-uso` e
+      `https://bza.tec.br/farmbook-politica-privacidade` — ambas já no ar e
+      conferidas.
+
+      Falta validar **em aparelho real**: o visual do cartão do Florest Book e
+      a compra `remove_ads` derrubando os dois anúncios (banner + cartão). O
+      billing só funciona no dispositivo, com conta de teste da Console.
 
 ## Fase 8 — Melhorias (pós-lançamento)
 
@@ -264,7 +277,7 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 | ~~Asset da Festa Junina~~ | 4B.10 | ✅ **Entregue** (`background-festejunina.png`) |
 | Música de fundo sem direitos autorais | 5.9 | A definir |
 | Conta Google Play Console ativa | 7.11 | A confirmar |
-| URL pública para termos/política | 7.3 | A definir |
+| ~~URL pública para termos/política~~ | 7.3 | ✅ **Entregue** — `bza.tec.br` (v1.0.2) |
 
 > Com os sons entregues, a Fase 5 deixou de ter bloqueio — só a música de fundo
 > segue pendente, e ela é independente dos sons dos animais. A Fase 4B pode ser
