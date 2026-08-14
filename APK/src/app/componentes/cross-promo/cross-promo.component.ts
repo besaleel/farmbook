@@ -1,10 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Browser } from '@capacitor/browser';
 
 import { URL_FLOREST_BOOK } from '../../core/legal';
+import { SettingsService } from '../../core/services/settings.service';
 
 /**
  * Anúncio interno do Florest Book, exibido na tela inicial.
@@ -22,6 +23,10 @@ import { URL_FLOREST_BOOK } from '../../core/legal';
  * A saída usa o navegador do sistema (Custom Tabs no Android), igual aos
  * links legais: o adulto enxerga a barra de endereço e sai do contexto do
  * jogo de forma explícita.
+ *
+ * Quem comprou "remover anúncios" não vê este cartão: ele é publicidade
+ * como qualquer outra, e cobrar por um app sem anúncios que continua
+ * anunciando seria propaganda enganosa.
  */
 @Component({
   selector: 'fb-cross-promo',
@@ -31,6 +36,16 @@ import { URL_FLOREST_BOOK } from '../../core/legal';
   styleUrls: ['./cross-promo.component.scss'],
 })
 export class CrossPromoComponent {
+  private readonly settings = inject(SettingsService);
+
+  /**
+   * Só aparece depois que as preferências foram lidas do disco: exibir antes
+   * faria a publicidade piscar na tela de quem já comprou a remoção.
+   */
+  readonly visivel = computed(
+    () => this.settings.carregado() && !this.settings.removeAds()
+  );
+
   /** Barreira parental aberta sobre o anúncio. */
   readonly mostrarBarreira = signal(false);
 

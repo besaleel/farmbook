@@ -54,6 +54,13 @@ export class SettingsService {
 
   readonly removeAds = signal<boolean>(false);
 
+  /**
+   * Falso até `carregar()` terminar. A UI usa isto para não exibir nada que
+   * dependa de uma preferência ainda desconhecida — sem ele, quem comprou
+   * "remover anúncios" veria a publicidade piscar antes de sumir.
+   */
+  readonly carregado = signal<boolean>(false);
+
   private pronto = false;
 
   async carregar(): Promise<void> {
@@ -78,6 +85,7 @@ export class SettingsService {
     this.removeAds.set(ads.value === 'true');
 
     this.pronto = true;
+    this.carregado.set(true);
   }
 
   async definirNome(valor: string): Promise<void> {

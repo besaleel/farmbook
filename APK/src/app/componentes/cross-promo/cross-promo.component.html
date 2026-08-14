@@ -1,35 +1,39 @@
 <!--
+  Some para quem comprou "remover anúncios" — é publicidade como o banner.
+
   O cartão inteiro é o alvo de toque, mas ele não navega direto: abre a
   barreira parental. Ver comentário do componente.
 -->
-<button
-  class="cartao"
-  type="button"
-  (click)="abrirBarreira()"
-  [attr.aria-label]="
-    ('crossPromo.chamada' | translate) + ' ' + ('crossPromo.app' | translate)
-  "
->
-  <span class="selo">{{ 'crossPromo.rotulo' | translate }}</span>
+@if (visivel()) {
+  <button
+    class="cartao"
+    type="button"
+    (click)="abrirBarreira()"
+    [attr.aria-label]="
+      ('crossPromo.chamada' | translate) + ' ' + ('crossPromo.app' | translate)
+    "
+  >
+    <span class="selo">{{ 'crossPromo.rotulo' | translate }}</span>
 
-  <img
-    class="capa"
-    src="assets/florestbook.webp"
-    alt=""
-    aria-hidden="true"
-    width="192"
-    height="192"
-    loading="lazy"
-  />
+    <img
+      class="capa"
+      src="assets/florestbook.webp"
+      alt=""
+      aria-hidden="true"
+      width="192"
+      height="192"
+      loading="lazy"
+    />
 
-  <span class="texto">
-    <span class="chamada">{{ 'crossPromo.chamada' | translate }}</span>
-    <span class="app fb-fonte">{{ 'crossPromo.app' | translate }}</span>
-    <span class="descricao">{{ 'crossPromo.descricao' | translate }}</span>
-  </span>
-</button>
+    <span class="texto">
+      <span class="chamada">{{ 'crossPromo.chamada' | translate }}</span>
+      <span class="app fb-fonte">{{ 'crossPromo.app' | translate }}</span>
+      <span class="descricao">{{ 'crossPromo.descricao' | translate }}</span>
+    </span>
+  </button>
+}
 
-@if (mostrarBarreira()) {
+@if (mostrarBarreira() && visivel()) {
   <div class="fundo" (click)="fecharBarreira()"></div>
 
   <div class="modal" role="dialog" aria-modal="true">

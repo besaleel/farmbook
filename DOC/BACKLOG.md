@@ -194,6 +194,11 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
       o selo "Publicidade" e a Play Store só abre depois da mesma barreira
       parental usada na compra (6.9), no navegador do sistema.
 
+      Some junto com o banner para quem comprou `remove_ads` — cobrar por um
+      app "sem anúncios" que segue anunciando seria propaganda enganosa. O
+      cartão só renderiza depois de `settings.carregado()`, senão a
+      publicidade pisca na tela de quem já pagou.
+
       ⚠️ Depende de o **Florest Book** ser classificado para público
       equivalente na Play Console — anunciar app de faixa etária maior dentro
       de um app do programa Famílias é motivo de reprovação.
