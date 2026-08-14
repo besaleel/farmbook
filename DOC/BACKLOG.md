@@ -211,12 +211,18 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [x] **7.2a** Nos dois documentos, declarar explicitamente o **Compromisso com
       a Política para Famílias do Google Play** e a ausência de coleta de
       dados de crianças (ESPECIFICACAO § 6.1)
-- [x] **7.3** Documentos publicados e verificados (HTTP 200, conteúdo idêntico
-      ao gerado em `DEPLOY/`):
-      - https://contaasbencaos.com.br/bananaking/termos-de-uso.html
-      - https://contaasbencaos.com.br/bananaking/politica-privacidade.html
-      *(o caminho contém "bananaking" por reaproveitar a hospedagem; o
-      conteúdo é do Farm Book)*
+- [x] **7.3** Documentos publicados e verificados (HTTP 200):
+      - https://bza.tec.br/farmbook-termos-de-uso
+      - https://bza.tec.br/farmbook-politica-privacidade
+
+      Migrados na v1.0.2 do domínio antigo
+      (`contaasbencaos.com.br/bananaking/…`) para o bza.tec.br, que concentra
+      os documentos de todos os apps.
+
+      ⚠️ O mesmo domínio hospeda os documentos do **Florest Book** com o
+      prefixo `florestbook-`. Ao mexer nas URLs, confira que o prefixo é
+      `farmbook-`: apontar a ficha da Play Store para a política do outro app
+      é motivo de reprovação.
 - [x] **7.3a** Links para os dois documentos na **tela inicial**, abrindo no
       navegador do sistema via Capacitor Browser — exigência da Política para
       Famílias para links externos
