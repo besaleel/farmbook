@@ -10,6 +10,13 @@
     "idioma": "Idioma",
     "musica": "Música"
   },
+  "crossPromo": {
+    "rotulo": "Publicidade",
+    "chamada": "Baixe também",
+    "app": "Florest Book",
+    "descricao": "Histórias e animais da floresta",
+    "abrir": "Ver na Play Store"
+  },
   "principal": {
     "ola": "Olá, {{nome}}!",
     "amiguinho": "Amiguinho",

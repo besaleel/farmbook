@@ -1,0 +1,64 @@
+<!--
+  O cartão inteiro é o alvo de toque, mas ele não navega direto: abre a
+  barreira parental. Ver comentário do componente.
+-->
+<button
+  class="cartao"
+  type="button"
+  (click)="abrirBarreira()"
+  [attr.aria-label]="
+    ('crossPromo.chamada' | translate) + ' ' + ('crossPromo.app' | translate)
+  "
+>
+  <span class="selo">{{ 'crossPromo.rotulo' | translate }}</span>
+
+  <img
+    class="capa"
+    src="assets/florestbook.webp"
+    alt=""
+    aria-hidden="true"
+    width="192"
+    height="192"
+    loading="lazy"
+  />
+
+  <span class="texto">
+    <span class="chamada">{{ 'crossPromo.chamada' | translate }}</span>
+    <span class="app fb-fonte">{{ 'crossPromo.app' | translate }}</span>
+    <span class="descricao">{{ 'crossPromo.descricao' | translate }}</span>
+  </span>
+</button>
+
+@if (mostrarBarreira()) {
+  <div class="fundo" (click)="fecharBarreira()"></div>
+
+  <div class="modal" role="dialog" aria-modal="true">
+    <button
+      class="fechar"
+      type="button"
+      (click)="fecharBarreira()"
+      aria-label="X"
+    >
+      ✕
+    </button>
+
+    <h2 class="titulo fb-fonte">{{ 'pagamento.barreiraTitulo' | translate }}</h2>
+    <p class="conta fb-fonte">
+      {{ 'pagamento.barreiraPergunta' | translate: { a: a(), b: b() } }}
+    </p>
+    <input
+      class="campo fb-fonte"
+      type="number"
+      inputmode="numeric"
+      [ngModel]="resposta()"
+      (ngModelChange)="resposta.set($event)"
+      (keyup.enter)="verificarBarreira()"
+    />
+    @if (erro()) {
+      <p class="erro">{{ 'pagamento.barreiraErro' | translate }}</p>
+    }
+    <button class="fb-botao" type="button" (click)="verificarBarreira()">
+      {{ 'crossPromo.abrir' | translate }}
+    </button>
+  </div>
+}

@@ -165,31 +165,38 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 - [x] **6.7** Remover banner e botão após a compra (estado persistido)
 - [x] **6.8** **Restaurar compra** (obrigatório para reinstalação)
 - [x] **6.9** Barreira parental antes da tela de pagamento
-- [ ] ⚠️ **6.10** **TROCAR PARA OS IDs DE PRODUÇÃO ANTES DA PUBLICAÇÃO ABERTA**
+- [x] **6.10** **IDs de produção do AdMob ativados** — feito na v1.0.2
+      (versionCode 3).
 
-      *Bloqueia a monetização: enquanto isso o app exibe "This is a test ad"
-      e **não gera nenhuma receita**.*
+      `producao()` em `APK/src/app/core/services/ads.service.ts` retorna
+      `Capacitor.isNativePlatform()`; `adId`, `isTesting` e
+      `initializeForTesting` derivam dessa flag.
 
-      **Como fazer:** em `APK/src/app/core/services/ads.service.ts`, no método
-      `producao()`, trocar `return false;` por
-      `return Capacitor.isNativePlatform();`. É a única alteração necessária —
-      `adId`, `isTesting` e `initializeForTesting` derivam todos dessa flag.
-
-      | | Teste (atual) | Produção |
+      | | Teste | Produção (atual) |
       |---|---|---|
       | Bloco de anúncios | `ca-app-pub-3940256099942544/6300978111` (público do Google) | `ca-app-pub-3480885465464323/5761468840` (FARMBOOK_NATIVE_RODAPE) |
       | `isTesting` | `true` | `false` |
 
       O **App ID** (`ca-app-pub-3480885465464323~8822746451`, no
-      AndroidManifest) é sempre o de produção — só o bloco alterna.
+      AndroidManifest) sempre foi o de produção — só o bloco alterna.
 
-      ⚠️ **Depois da troca, nunca toque nos próprios anúncios**: o Google
-      trata cliques do próprio desenvolvedor como fraude e suspende a conta
-      AdMob. Durante o teste interno, com os IDs de teste, clicar é seguro.
+      ⚠️ **Nunca toque nos próprios anúncios**: o Google trata cliques do
+      próprio desenvolvedor como fraude e suspende a conta AdMob. Para testar
+      no aparelho, volte `producao()` para `false` no build local.
 
-      **Manter em teste enquanto:** teste interno e fechado. **Trocar quando:**
-      for publicar em produção aberta — e gerar um novo AAB com `versionCode`
-      incrementado.
+      > As versões 1.0.0 e 1.0.1, já publicadas, saíram com os IDs de teste —
+      > exibiam "This is a test ad" e não geraram receita.
+
+- [x] **6.11** Anúncio interno do Florest Book na tela inicial
+      (`CrossPromoComponent`), abaixo do botão "Começar".
+
+      Cross-promotion dentro de app infantil é publicidade, então o cartão traz
+      o selo "Publicidade" e a Play Store só abre depois da mesma barreira
+      parental usada na compra (6.9), no navegador do sistema.
+
+      ⚠️ Depende de o **Florest Book** ser classificado para público
+      equivalente na Play Console — anunciar app de faixa etária maior dentro
+      de um app do programa Famílias é motivo de reprovação.
 
 ## Fase 7 — Publicação
 

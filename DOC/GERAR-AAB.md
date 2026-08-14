@@ -96,22 +96,22 @@ npx cap sync android
 Isso gera `APK/www` (build otimizado) e copia para
 `APK/android/app/src/main/assets/public`.
 
-> ### ⚠️ Antes de publicar em produção aberta: trocar os IDs do AdMob
+> ### ⚠️ Os anúncios estão em PRODUÇÃO desde a v1.0.2
 >
-> O app está com os **anúncios de teste** ativos ("This is a test ad") —
-> seguro para o teste interno, mas **não gera receita**.
+> Em `APK/src/app/core/services/ads.service.ts`, `producao()` retorna
+> `Capacitor.isNativePlatform()` — no Android o app usa o bloco real
+> (`FARMBOOK_NATIVE_RODAPE`) e **gera receita**.
 >
-> Em `APK/src/app/core/services/ads.service.ts`, método `producao()`:
-> trocar `return false;` por `return Capacitor.isNativePlatform();`
+> **Nunca clique nos próprios anúncios** — o Google interpreta como fraude e
+> suspende a conta AdMob. Para testar o app no aparelho com segurança, volte
+> `producao()` para `return false;` no build local e **não suba esse build**.
 >
-> Confira no APK gerado:
+> Como as duas constantes (produção e teste) ficam no bundle, procurar a
+> string não prova nada. O que vale é a lógica compilada:
 > ```powershell
-> # deve encontrar o bloco de producao e NAO o de teste em uso
-> Select-String -Path "APK\www\main*.js" -Pattern "3480885465464323/5761468840"
+> # deve imprimir: producao(){return <algo>.isNativePlatform()}
+> Select-String -Path "APK\www\*.js" -Pattern "producao\(\)\{return[^}]*\}"
 > ```
->
-> Depois da troca, **nunca clique nos próprios anúncios** — o Google suspende
-> a conta AdMob. Ver Backlog 6.10.
 
 ## 5. Gerar o AAB assinado
 
@@ -171,6 +171,7 @@ Copy-Item "C:\Sistemas\FARMBOOK\APK\android\app\build\outputs\bundle\release\app
 |---------|-------------|-------------|-------------|
 | `farmbook-release-v01.aab` | 1 | 1.0.0 | Primeiro build para teste interno. |
 | `farmbook-release-v02.aab` | 2 | 1.0.1 | Corrige o posicionamento dos animais (ancorados no cenário, não na tela). Anúncios ainda em modo de teste. |
+| `farmbook-release-v03.aab` | 3 | 1.0.2 | **Primeiro build com AdMob em produção** (bloco `FARMBOOK_NATIVE_RODAPE`). Adiciona o anúncio interno do Florest Book na tela inicial, rotulado como publicidade e atrás de barreira parental. |
 
 ---
 

@@ -81,15 +81,18 @@ export class AdsService {
   /**
    * ⚠️ CHAVE ÚNICA que alterna entre anúncios de teste e de produção.
    *
-   * Mantida em `false` durante o teste interno: com os IDs de teste é seguro
-   * tocar nos próprios anúncios, enquanto com os de produção o Google
-   * interpreta o clique como fraude e **suspende a conta AdMob**.
+   * **Ligada desde a v1.0.2 (versionCode 3):** o app usa o bloco real
+   * (`FARMBOOK_NATIVE_RODAPE`) e gera receita. As versões 1.0.0 e 1.0.1
+   * saíram com esta chave em `false` — exibiam "This is a test ad" e não
+   * monetizavam.
    *
-   * Trocar para `Capacitor.isNativePlatform()` apenas no build que for para
-   * produção aberta — ver BACKLOG 6.10. Enquanto isso o app exibe
-   * "This is a test ad" e não gera receita, o que é o esperado.
+   * **Nunca clique nos próprios anúncios.** Com os IDs de produção o Google
+   * interpreta o clique como fraude e **suspende a conta AdMob**. Para testar
+   * o app com segurança, volte esta função para `false` no build local.
+   *
+   * No navegador (`npm start`) segue desligada: o SDK só existe no nativo.
    */
   private producao(): boolean {
-    return false;
+    return Capacitor.isNativePlatform();
   }
 }

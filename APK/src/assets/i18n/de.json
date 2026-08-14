@@ -10,6 +10,13 @@
     "idioma": "Sprache",
     "musica": "Musik"
   },
+  "crossPromo": {
+    "rotulo": "Werbung",
+    "chamada": "Lade auch",
+    "app": "Florest Book",
+    "descricao": "Waldgeschichten und Tiere",
+    "abrir": "Im Play Store ansehen"
+  },
   "principal": {
     "ola": "Hallo, {{nome}}!",
     "amiguinho": "Kleiner Freund",

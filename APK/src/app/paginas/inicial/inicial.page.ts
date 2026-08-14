@@ -6,6 +6,7 @@ import { IonContent } from '@ionic/angular/standalone';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Browser } from '@capacitor/browser';
 
+import { CrossPromoComponent } from '../../componentes/cross-promo/cross-promo.component';
 import { AudioService } from '../../core/services/audio.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { IdiomaId, SettingsService } from '../../core/services/settings.service';
@@ -15,7 +16,13 @@ import { URL_PRIVACIDADE, URL_TERMOS } from '../../core/legal';
 @Component({
   selector: 'fb-inicial',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonContent, TranslatePipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonContent,
+    TranslatePipe,
+    CrossPromoComponent,
+  ],
   templateUrl: './inicial.page.html',
   styleUrls: ['./inicial.page.scss'],
 })
