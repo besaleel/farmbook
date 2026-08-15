@@ -160,7 +160,13 @@ Copy-Item "C:\Sistemas\FARMBOOK\APK\android\app\build\outputs\bundle\release\app
   `versionCode` é inteiro e deve **sempre aumentar**; `versionName` é o texto
   visível (ex.: `"1.0.0"`). O Google Play rejeita `versionCode` já usado.
 - **Nome do arquivo em `DEPLOY/`:** padrão `farmbook-release-vNN.aab`
-  (ex.: `-v02.aab`), incrementando a cada build.
+  (ex.: `-v02.aab`), incrementando a cada build. O `NN` acompanha o
+  `versionCode` — v04 ↔ versionCode 4.
+- **O build só está pronto quando o arquivo está em `DEPLOY/` com esse nome.**
+  Deixá-lo em `app/build/outputs/bundle/release/app-release.aab` não conclui
+  nada: aquele caminho é sobrescrito no próximo build e o nome não diz que
+  versão é. A publicação sempre sai de `DEPLOY/`.
+- Acrescente a linha do novo build ao **histórico de releases** abaixo.
 - Repita os passos 4–6.
 - Use **sempre o mesmo keystore** do passo 2 — nunca gere um novo para o
   `com.farmbook.app`.
@@ -171,7 +177,8 @@ Copy-Item "C:\Sistemas\FARMBOOK\APK\android\app\build\outputs\bundle\release\app
 |---------|-------------|-------------|-------------|
 | `farmbook-release-v01.aab` | 1 | 1.0.0 | Primeiro build para teste interno. |
 | `farmbook-release-v02.aab` | 2 | 1.0.1 | Corrige o posicionamento dos animais (ancorados no cenário, não na tela). Anúncios ainda em modo de teste. |
-| `farmbook-release-v03.aab` | 3 | 1.0.2 | **Primeiro build com AdMob em produção** (bloco `FARMBOOK_NATIVE_RODAPE`). Adiciona o anúncio interno do Florest Book na tela inicial, rotulado como publicidade e atrás de barreira parental. |
+| `farmbook-release-v03.aab` | 3 | 1.0.2 | Primeiro build com a chave do AdMob em produção, mas **não exibiu anúncio**: o bloco `FARMBOOK_NATIVE_RODAPE` era *Native advanced* e não preenche `showBanner()`. Adiciona o anúncio interno do Florest Book na tela inicial, rotulado como publicidade e atrás de barreira parental. |
+| `farmbook-release-v04.aab` | 4 | 1.0.3 | **Primeiro build que realmente exibe anúncio.** Troca o bloco pelo formato Banner (`ca-app-pub-3480885465464323/1903961766`) e adiciona log dos erros do AdMob no logcat, que antes eram engolidos em silêncio. |
 
 ---
 

@@ -172,9 +172,9 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
       `Capacitor.isNativePlatform()`; `adId`, `isTesting` e
       `initializeForTesting` derivam dessa flag.
 
-      | | Teste | Produção (atual) |
+      | | Teste | Produção |
       |---|---|---|
-      | Bloco de anúncios | `ca-app-pub-3940256099942544/6300978111` (público do Google) | `ca-app-pub-3480885465464323/5761468840` (FARMBOOK_NATIVE_RODAPE) |
+      | Bloco de anúncios | `ca-app-pub-3940256099942544/6300978111` (público do Google) | `ca-app-pub-3480885465464323/1903961766` (FARMBOOK_BANNER_RODAPE) |
       | `isTesting` | `true` | `false` |
 
       O **App ID** (`ca-app-pub-3480885465464323~8822746451`, no
@@ -185,7 +185,30 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
       no aparelho, volte `producao()` para `false` no build local.
 
       > As versões 1.0.0 e 1.0.1, já publicadas, saíram com os IDs de teste —
-      > exibiam "This is a test ad" e não geraram receita.
+      > exibiam "This is a test ad" e não geraram receita. A 1.0.2 ativou a
+      > chave mas caiu no problema do 6.12: também não monetizou.
+
+- [x] **6.12** **Bloco de anúncios do formato _Banner_ criado** —
+      `ca-app-pub-3480885465464323/1903961766`, ativado na v1.0.3
+      (versionCode 4).
+
+      O bloco `ca-app-pub-3480885465464323/5761468840`
+      (`FARMBOOK_NATIVE_RODAPE`) foi criado como **Native advanced**, mas o
+      app chama `AdMob.showBanner()`. No AdMob o formato do bloco é fixo e
+      não intercambiável: um bloco nativo nunca preenche uma requisição de
+      banner. O resultado é indistinguível de "sem rede" — o `catch` recolhia
+      o espaço e o jogo seguia sem anúncio nenhum. Foi por isso que a v1.0.2
+      não exibiu publicidade apesar da chave de produção ligada.
+
+      Resolvido criando um bloco **Banner** novo e apontando `BLOCO_PRODUCAO`
+      (`ads.service.ts`) para ele. Restam duas pendências operacionais:
+
+      - Bloco recém-criado leva algumas horas até começar a preencher — se a
+        v1.0.3 não exibir anúncio logo após a publicação, aguardar antes de
+        suspeitar de bug. O `console.warn` nos catch do `ads.service.ts`
+        mostra o motivo real no logcat.
+      - O bloco nativo antigo (`…/5761468840`, `FARMBOOK_NATIVE_RODAPE`) pode
+        ser desativado no painel — não é referenciado em lugar nenhum.
 
 - [x] **6.11** Anúncio interno do Florest Book na tela inicial
       (`CrossPromoComponent`), abaixo do botão "Começar".

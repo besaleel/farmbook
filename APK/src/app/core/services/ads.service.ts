@@ -12,9 +12,18 @@ import { SettingsService } from './settings.service';
  * IDs de produção (ESPECIFICACAO § 7).
  * Em desenvolvimento usamos os IDs de teste do Google: clicar nos próprios
  * anúncios de produção causa suspensão da conta.
+ *
+ * ⚠️ O bloco de produção precisa ser do formato **Banner**. O primeiro bloco
+ * criado (`ca-app-pub-3480885465464323/5761468840`,
+ * FARMBOOK_NATIVE_RODAPE) era *Native advanced*: `showBanner()` nunca
+ * preenche nele, e a falha era engolida em silêncio — nenhum anúncio
+ * aparecia e nenhum erro era registrado. Ver BACKLOG 6.12.
  */
-const BLOCO_PRODUCAO = 'ca-app-pub-3480885465464323/5761468840';
+const BLOCO_PRODUCAO = 'ca-app-pub-3480885465464323/1903961766';
 const BLOCO_TESTE = 'ca-app-pub-3940256099942544/6300978111';
+
+/** Marca o bloco de produção ainda não cadastrado (ver BLOCO_PRODUCAO). */
+const BLOCO_PRODUCAO_PENDENTE = !BLOCO_PRODUCAO.startsWith('ca-app-pub-');
 
 @Injectable({ providedIn: 'root' })
 export class AdsService {
@@ -38,13 +47,25 @@ export class AdsService {
     try {
       await AdMob.initialize({ initializeForTesting: !this.producao() });
       this.iniciado = true;
-    } catch {
+    } catch (erro) {
       // Sem AdMob disponível o jogo segue normalmente — é offline-first.
+      console.warn('[AdMob] falha ao inicializar o SDK:', erro);
     }
   }
 
   async mostrarBanner(): Promise<void> {
     if (this.settings.removeAds() || !Capacitor.isNativePlatform()) return;
+
+    if (this.producao() && BLOCO_PRODUCAO_PENDENTE) {
+      // Melhor não exibir nada do que requisitar um ID inválido.
+      console.error(
+        '[AdMob] BLOCO_PRODUCAO não configurado — crie um bloco do tipo ' +
+          'Banner no painel do AdMob e substitua o valor em ads.service.ts.'
+      );
+      this.bannerVisivel.set(false);
+      return;
+    }
+
     await this.iniciar();
     if (!this.iniciado) return;
 
@@ -61,9 +82,13 @@ export class AdsService {
     try {
       await AdMob.showBanner(opcoes);
       this.bannerVisivel.set(true);
-    } catch {
+    } catch (erro) {
       // Sem rede ou sem preenchimento: o espaço é recolhido e o jogo
       // continua (ESPECIFICACAO § 6 — offline-first).
+      //
+      // O log é o único sinal de que algo está errado na configuração:
+      // um bloco de formato incorreto falha exatamente como "sem rede".
+      console.warn('[AdMob] banner não exibido:', erro);
       this.bannerVisivel.set(false);
     }
   }
@@ -73,7 +98,7 @@ export class AdsService {
     try {
       await AdMob.removeBanner();
     } catch {
-      // Já removido: nada a fazer.
+      // Já removido: nada a fazer. Não é erro — não polui o log.
     }
     this.bannerVisivel.set(false);
   }
@@ -81,10 +106,11 @@ export class AdsService {
   /**
    * ⚠️ CHAVE ÚNICA que alterna entre anúncios de teste e de produção.
    *
-   * **Ligada desde a v1.0.2 (versionCode 3):** o app usa o bloco real
-   * (`FARMBOOK_NATIVE_RODAPE`) e gera receita. As versões 1.0.0 e 1.0.1
-   * saíram com esta chave em `false` — exibiam "This is a test ad" e não
-   * monetizavam.
+   * **Histórico:** 1.0.0 e 1.0.1 saíram com esta chave em `false` — exibiam
+   * "This is a test ad" e não monetizavam. A 1.0.2 ligou a chave, mas
+   * apontava para um bloco *Native advanced*, incompatível com
+   * `showBanner()`: nenhum anúncio chegou a ser exibido. A monetização só
+   * passa a valer com o bloco Banner em `BLOCO_PRODUCAO` (BACKLOG 6.12).
    *
    * **Nunca clique nos próprios anúncios.** Com os IDs de produção o Google
    * interpreta o clique como fraude e **suspende a conta AdMob**. Para testar
