@@ -7,7 +7,7 @@
  *
  *   - animais    : PNG 1024x1536 RGBA -> WebP 512x768  (alpha preservado)
  *   - backgrounds: PNG 1024x1536 RGB  -> WebP 1080x1620
- *   - logo       : PNG 1254x1254 RGBA -> WebP 512x512
+ *   - logo       : PNG 1536x1024 RGBA -> WebP largura 640 (proporcao mantida)
  *   - sons       : copiados de PROJECT/assets/sounds/ (ja processados)
  *
  * Os arquivos .svg e .glb sao ignorados de proposito (ver ESPECIFICACAO 2.1 e 3.1).
@@ -31,6 +31,12 @@ const DESTINO = path.join(__dirname, '../src/assets');
 const QUALIDADE = 85;
 
 const ARQUIVO_MUSICA = 'background-music.mp3';
+
+/**
+ * Arte do logo. `logo-trans.png` substituiu o `logo.png` quadrado: a versão
+ * antiga estava serrilhada nas bordas e trazia a moldura amarela embutida.
+ */
+const ARQUIVO_LOGO = 'logo-trans.png';
 
 const ANIMAIS = ['cavalo', 'galinha', 'gatinha', 'ovelha', 'porco', 'vaca'];
 const BACKGROUNDS = [
@@ -131,6 +137,42 @@ async function converterAnimal(nome) {
   return { ok: true, bytes: depois };
 }
 
+/**
+ * Converte o logo preservando a proporção.
+ *
+ * O logo é paisagem (3:2) e a arte não tem moldura — é recortada na
+ * silhueta. Redimensionar para um quadrado com `fit: 'fill'`, como fazem os
+ * backgrounds, deformaria os animais; e `contain` só acrescentaria faixas
+ * transparentes inúteis ao peso. A largura fixa mantém a nitidez na tela
+ * inicial, onde o logo ocupa no máximo 240 CSS px (≈720 px em 3x).
+ */
+async function converterLogo() {
+  const origem = path.join(ORIGEM, ARQUIVO_LOGO);
+  const destino = path.join(DESTINO, 'logo.webp');
+  if (!existsSync(origem)) {
+    console.log(`  [PULADO] logo — origem não encontrada: ${ARQUIVO_LOGO}`);
+    return { ok: false, bytes: 0 };
+  }
+  const antes = (await stat(origem)).size;
+
+  // Recorta a margem transparente, como nos animais: ela não é desenho, só
+  // peso, e desloca o logo do centro na tela inicial.
+  const recortado = await sharp(origem).trim({ threshold: 10 }).toBuffer();
+
+  await sharp(recortado)
+    .resize({ width: 640, fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: QUALIDADE, effort: 6 })
+    .toFile(destino);
+
+  const meta = await sharp(destino).metadata();
+  const depois = (await stat(destino)).size;
+  const reducao = (100 * (1 - depois / antes)).toFixed(0);
+  console.log(
+    `  ${'logo'.padEnd(28)} ${kb(antes).padStart(9)} -> ${kb(depois).padStart(8)}  (-${reducao}%)  ${meta.width}x${meta.height}`
+  );
+  return { ok: true, bytes: depois };
+}
+
 async function main() {
   console.log('\nPipeline de assets — Farm Book');
   console.log(`origem : ${ORIGEM}`);
@@ -160,14 +202,8 @@ async function main() {
     total += r.bytes;
   }
 
-  console.log('\nLogo (512x512):');
-  const rl = await converter(
-    path.join(ORIGEM, 'logo.png'),
-    path.join(DESTINO, 'logo.webp'),
-    512,
-    512,
-    'logo'
-  );
+  console.log('\nLogo (largura 640, proporção preservada):');
+  const rl = await converterLogo();
   total += rl.bytes;
 
   console.log('\nSons (de PROJECT/assets/sounds/):');

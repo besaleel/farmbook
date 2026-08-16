@@ -179,6 +179,7 @@ Copy-Item "C:\Sistemas\FARMBOOK\APK\android\app\build\outputs\bundle\release\app
 | `farmbook-release-v02.aab` | 2 | 1.0.1 | Corrige o posicionamento dos animais (ancorados no cenário, não na tela). Anúncios ainda em modo de teste. |
 | `farmbook-release-v03.aab` | 3 | 1.0.2 | Primeiro build com a chave do AdMob em produção, mas **não exibiu anúncio**: o bloco `FARMBOOK_NATIVE_RODAPE` era *Native advanced* e não preenche `showBanner()`. Adiciona o anúncio interno do Florest Book na tela inicial, rotulado como publicidade e atrás de barreira parental. |
 | `farmbook-release-v04.aab` | 4 | 1.0.3 | **Primeiro build que realmente exibe anúncio.** Troca o bloco pelo formato Banner (`ca-app-pub-3480885465464323/1903961766`) e adiciona log dos erros do AdMob no logcat, que antes eram engolidos em silêncio. |
+| `farmbook-release-v05.aab` | 5 | 1.0.4 | Logo nova (`logo-trans.png`, sem serrilhado) no splash e na tela inicial; o ícone do launcher segue com a arte quadrada. Botão de som do celeiro passa a silenciar também a música de fundo, não só os efeitos. |
 
 ---
 

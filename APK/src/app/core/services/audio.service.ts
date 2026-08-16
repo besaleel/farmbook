@@ -78,6 +78,38 @@ export class AudioService {
     else this.pararMusica();
   }
 
+  /**
+   * Botão de mudo do jogo: silencia **tudo** — efeitos dos animais e música.
+   *
+   * Dentro do celeiro há um único botão de som, e para a criança (e para o
+   * adulto ao lado) ele significa "para de fazer barulho". Mexer só nos
+   * efeitos deixava a música tocando, que é o som mais constante dos dois.
+   *
+   * Ao religar, os dois voltam juntos: o botão é a única forma de silenciar
+   * no celeiro, então precisa ser capaz de desfazer o que fez. O interruptor
+   * separado da música continua na tela inicial, para quem quer só a trilha
+   * desligada.
+   */
+  async alternarMudo(comSom: boolean): Promise<void> {
+    await Promise.all([
+      this.settings.definirSom(comSom),
+      this.settings.definirMusica(comSom),
+    ]);
+
+    if (comSom) {
+      await this.iniciarMusica();
+      return;
+    }
+
+    // Interrompe também o efeito em curso: sem isso, o mugido que já estava
+    // no ar continuaria até o fim depois do toque no botão.
+    if (this.tocando) {
+      this.tocando.pause();
+      this.tocando.currentTime = 0;
+    }
+    this.pararMusica();
+  }
+
   /** Silencia tudo — usado quando o app vai a segundo plano. */
   pausarTudo(): void {
     this.tocando?.pause();

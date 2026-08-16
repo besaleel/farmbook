@@ -16,7 +16,21 @@ import sharp from 'sharp';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RAIZ = path.resolve(__dirname, '../..');
+
+/**
+ * Ícone do launcher e da loja: a arte quadrada, com a moldura amarela.
+ * O quadro do Android é 1:1 e recorta em círculo/squircle — a arte paisagem
+ * do splash encolheria demais aqui para caber, deixando o ícone quase vazio.
+ */
 const LOGO = path.join(RAIZ, 'PROJECT/assets/logo.png');
+
+/**
+ * Splash: arte paisagem, sem moldura e sem serrilhado. A tela cheia tem
+ * espaço horizontal de sobra, então a proporção 3:2 rende um logo maior e
+ * mais legível do que o quadrado.
+ */
+const LOGO_SPLASH = path.join(RAIZ, 'PROJECT/assets/logo-trans.png');
+
 const RES = path.join(__dirname, '../android/app/src/main/res');
 const LOJA = path.join(RAIZ, 'DEPLOY/store-assets');
 
@@ -134,9 +148,18 @@ async function splashScreens() {
     const destino = path.join(RES, dir);
     await mkdir(destino, { recursive: true });
 
-    // Logo a 42% do menor lado: respira nas bordas em qualquer proporção.
-    const lado = Math.round(Math.min(w, h) * 0.42);
-    const logo = await sharp(LOGO).resize(lado, lado, { fit: 'contain' }).png().toBuffer();
+    // Logo a 72% da largura, limitado a 42% da altura. A arte é paisagem
+    // (3:2), então é a largura que manda em retrato; o teto pela altura
+    // evita que ela domine a tela nas variantes em paisagem.
+    //
+    // O `trim` primeiro: a arte traz margem transparente irregular, que sem
+    // o recorte entraria na conta do tamanho e deixaria o logo menor e
+    // visivelmente fora do centro óptico.
+    const largura = Math.min(Math.round(w * 0.72), Math.round(h * 0.42 * 1.5));
+    const logo = await sharp(await sharp(LOGO_SPLASH).trim({ threshold: 10 }).toBuffer())
+      .resize({ width: largura, fit: 'inside' })
+      .png()
+      .toBuffer();
 
     await sharp({ create: { width: w, height: h, channels: 4, background: FUNDO } })
       .composite([{ input: logo, gravity: 'center' }])

@@ -140,8 +140,9 @@ export class CeleiroPage implements OnInit, OnDestroy {
     this.painel.set(null);
   }
 
+  /** Mudo geral: um botão só, silenciando efeitos e música juntos. */
   async alternarSom(): Promise<void> {
-    await this.settings.definirSom(!this.settings.som());
+    await this.audio.alternarMudo(!this.settings.som());
   }
 
   /** Primeira letra do nome, usada no avatar. */
