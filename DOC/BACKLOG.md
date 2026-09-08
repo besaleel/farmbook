@@ -261,22 +261,26 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
       coletado", e marcar na Play Console a exibição da mensagem
       **"Compromisso com a Política para Famílias do Google Play"** na seção
       Segurança dos dados — decisão confirmada pelo cliente
-- [x] **7.10** AAB assinado gerado. Último: `DEPLOY/farmbook-release-v03.aab`
-      (12,4 MB, versionCode 3 / versionName 1.0.2). Histórico completo em
+- [x] **7.10** AAB assinado gerado. Último: `DEPLOY/farmbook-release-v06.aab`
+      (13,3 MB, versionCode 6 / versionName 1.0.5). Histórico completo em
       `DOC/GERAR-AAB.md`
 - [x] **7.11** Publicado em teste interno (v1.0.0 e v1.0.1) e validado em
       aparelho real
-- [ ] **7.12** Publicar a **v1.0.2** — primeira versão que monetiza de fato
-      (ver 6.10) e que leva o anúncio do Florest Book (6.11).
+- [x] **7.12** Publicada a **v1.0.5** na Play Console (08/09/2026) — corrige a
+      grafia do nome no anúncio interno ("Florest Book" → "Forest Book").
+      Testada e aprovada antes da subida.
 
-      Junto do AAB, apontar na Play Console as URLs novas:
+      A monetização de fato começou na v1.0.3 (ver 6.10 e 6.11): a v1.0.2 saiu
+      com a chave de produção ligada mas sem exibir anúncio, por causa do
+      formato do bloco.
+
+      As URLs legais novas já estão apontadas na Console:
       `https://bza.tec.br/farmbook-termos-de-uso` e
-      `https://bza.tec.br/farmbook-politica-privacidade` — ambas já no ar e
-      conferidas.
+      `https://bza.tec.br/farmbook-politica-privacidade`.
 
-      Falta validar **em aparelho real**: o visual do cartão do Florest Book e
-      a compra `remove_ads` derrubando os dois anúncios (banner + cartão). O
-      billing só funciona no dispositivo, com conta de teste da Console.
+      Ainda **não validado em aparelho real**: a compra `remove_ads` derrubando
+      os dois anúncios (banner + cartão). O billing só funciona no dispositivo,
+      com conta de teste da Console.
 
 ## Fase 8 — Melhorias (pós-lançamento)
 
@@ -299,7 +303,7 @@ Regras completas em [ESPECIFICACAO.md § 4.4](ESPECIFICACAO.md). Depende de
 | ~~Efeitos sonoros dos 6 animais~~ | 5.8 | ✅ **Entregue** (processado em 1.7) |
 | ~~Asset da Festa Junina~~ | 4B.10 | ✅ **Entregue** (`background-festejunina.png`) |
 | Música de fundo sem direitos autorais | 5.9 | A definir |
-| Conta Google Play Console ativa | 7.11 | A confirmar |
+| ~~Conta Google Play Console ativa~~ | 7.11 | ✅ **Confirmada** — app publicado |
 | ~~URL pública para termos/política~~ | 7.3 | ✅ **Entregue** — `bza.tec.br` (v1.0.2) |
 
 > Com os sons entregues, a Fase 5 deixou de ter bloqueio — só a música de fundo
