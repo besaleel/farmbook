@@ -62,6 +62,20 @@
             android:value="true" />
     </application>
 
+    <!--
+        ⚠️ Orientação NÃO é requisito de hardware (Play Console, 18/11/2026, bloqueou o envio do
+        Skate): o `screenOrientation` da Activity faz o Android DEDUZIR
+        `android.hardware.screen.portrait`/`landscape` como obrigatório, e a loja esconde o app de
+        tablets, Chromebooks, Play Games no PC e Android XR. As duas ficam opcionais; a orientação
+        do jogo não muda (isso só decide quem a loja deixa instalar).
+    -->
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false" />
+
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
